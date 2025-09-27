@@ -1,82 +1,13 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIF Framework - Complete Package</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">  <!-- Add CSS for styling -->
 </head>
 <body>
     <div class="docs-container">
-        <aside class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Enterprise AI Governance</p>
-            </div>
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <h3>Overview</h3>
-                    <ul class="nav-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#demo">Demo</a></li>
-                    </ul>
-                </div>
-                <div class="nav-section">
-                    <h3>Documentation</h3>
-                    <ul class="nav-links">
-                        <li><a href="docs/acquisition-overview.html">Acquisition</a></li>
-                        <li><a href="docs/integration-guide.html">Integration</a></li>
-                        <li><a href="docs/compliance-guide.html">Compliance</a></li>
-                    </ul>
-                </div>
-                <div class="nav-section">
-                    <h3>Code & IP</h3>
-                    <ul class="nav-links">
-                        <li><a href="#code">Codebase</a></li>
-                        <li><a href="#patent">Patent</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </aside>
         <main class="docs-content">
             <section id="home">
                 <h2>Welcome to SIF Framework</h2>
@@ -91,16 +22,16 @@
                 <h2>Live Demo</h2>
                 <p>Run the prototype locally:</p>
                 <ol>
-                    <li>Clone: <code>git clone https://github.com/SIF-Framework-UK/sif-prototype.git</code></li>
+                    <li>Clone: <code>git clone https://github.com/SIF-Framework-UK/SIF-Framework.git</code></li>  <!-- Updated URL -->
                     <li>Install: <code>npm install</code></li>
                     <li>Start: <code>node demo-server.js</code></li>
                     <li>Visit: <a href="http://localhost:3000">http://localhost:3000</a></li>
                 </ol>
-                <p>Or watch a demo: <a href="assets/demo-video.mp4">Video Guide</a></p>
+                <p>Or watch a demo: <a href="assets/demo-video.mp4">Video Guide</a> (Add your video file here if available)</p>
             </section>
             <section id="code">
                 <h2>Codebase</h2>
-                <p>Access the full prototype in <code>sif-prototype/</code>. Includes:</p>
+                <p>Access the full prototype in <code>demo/</code>. Includes:</p>
                 <ul>
                     <li><code>demo-server.js</code> - Entry point</li>
                     <li><code>compliance-engine.js</code> - Compliance logic</li>
@@ -111,10 +42,10 @@
                 <h2>Patent Details</h2>
                 <p>Filed: September 27, 2025, UK IPO #2516091.2</p>
                 <p>Summary: System for constitutional AI adjudication with adversarial debate, principle weighting, and immutable ledger.</p>
-                <p><a href="assets/patent-receipt.txt">View Receipt</a></p>
+                <p><a href="assets/patent-receipt.jpeg" target="_blank">View Receipt</a> (Opens in new tab)</p>
             </section>
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js"></script>  <!-- Add JS for interactivity -->
 </body>
 </html>
