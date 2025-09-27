@@ -1101,4 +1101,72 @@ tr:hover {
         text-align: center;
     }
 
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+    .docs-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .docs-sidebar {
+        width: 250px;
+        background: #f8f9fa;
+        padding: 20px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    .sidebar-header h1 {
+        margin: 0;
+        font-size: 1.5em;
+        color: #2563eb;
+    }
+    .sidebar-header p {
+        margin: 5px 0 15px;
+        color: #6c757d;
+    }
+    .sidebar-nav h3 {
+        font-size: 1.1em;
+        margin: 15px 0 5px;
+        color: #333;
+    }
+    .nav-links {
+        list-style: none;
+        padding: 0;
+    }
+    .nav-links li {
+        margin: 5px 0;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #2563eb;
+    }
+    .nav-links a:hover {
+        color: #1d4ed8;
+    }
+    .docs-content {
+        flex: 1;
+        padding: 20px;
+    }
+    h2 {
+        color: #2563eb;
+    }
+    .buyer-benefits {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    .benefit-card {
+        background: #f0f4f8;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+    }
+
 }
