@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Cases - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Integration</h3>
+                    <ul class="nav-links">
+                        <li><a href="integration-guide.html"><span class="icon">🔌</span> Integration Guide</a></li>
+                        <li><a href="api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Enterprise</h3>
+                    <ul class="nav-links">
+                        <li><a href="enterprise-deployment.html"><span class="icon">🏢</span> Deployment Guide</a></li>
+                        <li><a href="compliance-guide.html"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                        <li><a href="use-cases.html" class="active"><span class="icon">🎯</span> Use Cases</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Support</h3>
+                    <ul class="nav-links">
+                        <li><a href="faq.html"><span class="icon">❓</span> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> Use Cases
+            </div>
+
+            <div class="docs-header">
+                <h1>Use Cases & Industry Applications</h1>
+                <p>Real-world applications of the SIF Framework across various industries and scenarios</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>Healthcare & Medical Ethics</h2>
+
+                    <h3>Clinical Decision Support</h3>
+                    <p><strong>Challenge</strong>: Balancing patient autonomy with medical beneficence in treatment decisions.</p>
+
+                    <h4>SIF Solution:</h4>
+                    <pre><code class="language-javascript">const ruling = await sifClient.adjudicate({
+  for: "Experimental treatment shows 60% success rate in trials",
+  against: "Patient has expressed desire for palliative care only"
+}, {
+  industry: 'healthcare',
+  context: {
+    patient_age: 45,
+    condition_severity: 'terminal',
+    family_consent: 'divided'
+  }
+});
+
+// Result includes HIPAA compliance and medical ethics validation
+if (ruling.compliance.score > 80 && ruling.decision === 'For') {
+  proceedWithTreatment(ruling.certificate);
+}</code></pre>
+
+                    <h4>Benefits:</h4>
+                    <ul>
+                        <li>40% faster ethical review committees</li>
+                        <li>Automated HIPAA compliance documentation</li>
+                        <li>Reduced medical liability through transparent decision-making</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Financial Services & Banking</h2>
+
+                    <h3>Ethical Lending Decisions</h3>
+                    <p><strong>Challenge</strong>: Balancing profit motives with fair access to credit.</p>
+
+                    <h4>SIF Solution:</h4>
+                    <pre><code class="language-javascript">const loanDecision = await sifClient.adjudicate({
+  for: "Applicant has stable income and good credit history",
+  against: "Debt-to-income ratio exceeds recommended limits"
+}, {
+  industry: 'finance',
+  context: {
+    loan_amount: 50000,
+    purpose: 'small_business',
+    community_impact: 'high'
+  }
+});
+
+// Includes automated fair lending compliance
+if (loanDecision.compliance.regulations.FAIR_LENDING.score > 85) {
+  approveLoan(loanDecision);
+}</code></pre>
+
+                    <h4>Regulatory Coverage:</h4>
+                    <ul>
+                        <li>Equal Credit Opportunity Act (ECOA)</li>
+                        <li>Fair Housing Act compliance</li>
+                        <li>Anti-discrimination regulations</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Government & Public Policy</h2>
+
+                    <h3>Transparent Policy Decisions</h3>
+                    <p><strong>Challenge</strong>: Making policy decisions with public accountability.</p>
+
+                    <h4>SIF Solution:</h4>
+                    <pre><code class="language-javascript">const policyDecision = await sifClient.adjudicate({
+  for: "Policy will reduce carbon emissions by 40% by 2030",
+  against: "Policy will increase energy costs for low-income families"
+}, {
+  industry: 'government',
+  context: {
+    jurisdiction: 'national',
+    impact_scale: 'societal',
+    time_horizon: 'long_term'
+  }
+});
+
+// Generate public-facing decision rationale
+publishDecision(policyDecision, {
+  transparency: 'full',
+  include_certificate: true
+});</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Implementation Success Metrics</h2>
+
+                    <h3>Healthcare Organizations</h3>
+                    <ul>
+                        <li><strong>40% reduction</strong> in ethical review committee time</li>
+                        <li><strong>100% compliance</strong> with HIPAA documentation requirements</li>
+                        <li><strong>75% decrease</strong> in ethics-related complaints and appeals</li>
+                    </ul>
+
+                    <h3>Financial Institutions</h3>
+                    <ul>
+                        <li><strong>30% improvement</strong> in fair lending compliance scores</li>
+                        <li><strong>90% faster</strong> regulatory audit preparation</li>
+                        <li><strong>50% reduction</strong> in ethical violation incidents</li>
+                    </ul>
+
+                    <h3>Government Agencies</h3>
+                    <ul>
+                        <li><strong>60% increase</strong> in public trust metrics for decision transparency</li>
+                        <li><strong>80% faster</strong> policy decision-making processes</li>
+                        <li><strong>100% audit readiness</strong> for all major decisions</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Getting Started with Your Use Case</h2>
+
+                    <h3>Assessment Template</h3>
+                    <pre><code class="language-javascript">// Evaluate your organization's needs
+const useCaseAssessment = {
+  industry: 'your_industry',
+  primary_challenges: [
+    'ethical_consistency',
+    'regulatory_compliance',
+    'decision_transparency'
+  ],
+  current_process: {
+    decision_making: 'manual_committees',
+    compliance: 'retrospective_audits',
+    documentation: 'manual_reports'
+  },
+  desired_outcomes: [
+    'faster_decisions',
+    'better_compliance',
+    'reduced_liability'
+  ]
+};</code></pre>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="compliance-guide.html" class="nav-button prev">Compliance Guide</a>
+                    <a href="faq.html" class="nav-button next">FAQ</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

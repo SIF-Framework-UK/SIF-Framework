@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Integration</h3>
+                    <ul class="nav-links">
+                        <li><a href="integration-guide.html"><span class="icon">🔌</span> Integration Guide</a></li>
+                        <li><a href="api-reference.html" class="active"><span class="icon">🔧</span> API Reference</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Enterprise</h3>
+                    <ul class="nav-links">
+                        <li><a href="enterprise-deployment.html"><span class="icon">🏢</span> Deployment Guide</a></li>
+                        <li><a href="compliance-guide.html"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                        <li><a href="use-cases.html"><span class="icon">🎯</span> Use Cases</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Support</h3>
+                    <ul class="nav-links">
+                        <li><a href="faq.html"><span class="icon">❓</span> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> API Reference
+            </div>
+
+            <div class="docs-header">
+                <h1>API Reference</h1>
+                <p>Complete technical documentation for all SIF Framework endpoints</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>Base URLs</h2>
+                    <pre><code class="language-text">Development: http://localhost:3000
+Production: https://api.sif-framework.com
+Staging: https://staging.sif-framework.com</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Authentication</h2>
+
+                    <h3>API Keys</h3>
+                    <pre><code class="language-http">Authorization: Bearer sk_prod_your_production_key_here</code></pre>
+
+                    <h3>Key Types</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key Type</th>
+                                <th>Rate Limit</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>sk_prod_*</code></td>
+                                <td>1000/hr</td>
+                                <td>Production applications</td>
+                            </tr>
+                            <tr>
+                                <td><code>sk_test_*</code></td>
+                                <td>10/hr</td>
+                                <td>Testing and development</td>
+                            </tr>
+                            <tr>
+                                <td>No key</td>
+                                <td>1/hr</td>
+                                <td>Demo and evaluation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-section">
+                    <h2>Core Endpoints</h2>
+
+                    <h3>POST /api/ai-adjudicate</h3>
+                    <p>Submit an ethical dilemma for AI adjudication.</p>
+
+                    <h4>Request:</h4>
+                    <pre><code class="language-http">POST /api/ai-adjudicate
+Authorization: Bearer sk_prod_abc123...
+Content-Type: application/json</code></pre>
+
+                    <pre><code class="language-json">{
+  "debate": {
+    "for": "Argument supporting the action",
+    "against": "Argument against the action"
+  },
+  "industry": "healthcare",
+  "context": {
+    "urgency": "high",
+    "impact_scale": "large",
+    "stakeholders": ["patients", "doctors", "public"],
+    "time_horizon": "immediate"
+  },
+  "options": {
+    "include_compliance": true,
+    "generate_certificate": true,
+    "detailed_reasoning": true
+  }
+}</code></pre>
+
+                    <h4>Response:</h4>
+                    <pre><code class="language-json">{
+  "success": true,
+  "ruling": {
+    "decision": "For",
+    "reasoning": "Detailed explanation...",
+    "confidence": 0.87,
+    "method": "ai_adjudication",
+    "principles_applied": [
+      {
+        "principle": "Beneficence",
+        "weight": 1.2,
+        "influence": "strong_support"
+      }
+    ]
+  },
+  "compliance": {
+    "compliant": true,
+    "score": 92,
+    "breakdown": {
+      "GDPR": 95,
+      "HIPAA": 89
+    },
+    "certificate": {
+      "id": "COMP-20240115-XYZ789",
+      "valid_until": "2025-01-15T10:30:00Z"
+    }
+  },
+  "metadata": {
+    "request_id": "req_123456",
+    "processing_time": "1.2s",
+    "model_version": "2.0.0"
+  }
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h3>GET /api/compliance/score</h3>
+                    <p>Get current compliance scores and recommendations.</p>
+
+                    <h4>Request:</h4>
+                    <pre><code class="language-http">GET /api/compliance/score
+Authorization: Bearer sk_prod_abc123...</code></pre>
+
+                    <h4>Response:</h4>
+                    <pre><code class="language-json">{
+  "overall_score": 92,
+  "breakdown": {
+    "GDPR": {
+      "score": 95,
+      "status": "compliant",
+      "last_audit": "2024-01-01"
+    },
+    "HIPAA": {
+      "score": 89,
+      "status": "compliant",
+      "last_audit": "2024-01-01"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "action": "Enhance documentation for EU AI Act",
+      "estimated_effort": "2 weeks",
+      "impact": "+15 points on compliance score"
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Error Handling</h2>
+
+                    <h3>Standard Error Response</h3>
+                    <pre><code class="language-json">{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Rate limit exceeded. Please wait 15 minutes.",
+    "details": {
+      "limit": 1000,
+      "remaining": 0,
+      "reset_time": "2024-01-15T11:30:00Z"
+    },
+    "request_id": "req_123456",
+    "documentation_url": "https://docs.sif-framework.com/errors/RATE_LIMIT_EXCEEDED"
+  }
+}</code></pre>
+
+                    <h3>Common Error Codes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>HTTP Status</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>INVALID_API_KEY</code></td>
+                                <td>401</td>
+                                <td>API key is invalid or expired</td>
+                            </tr>
+                            <tr>
+                                <td><code>RATE_LIMIT_EXCEEDED</code></td>
+                                <td>429</td>
+                                <td>Too many requests</td>
+                            </tr>
+                            <tr>
+                                <td><code>VALIDATION_ERROR</code></td>
+                                <td>400</td>
+                                <td>Request validation failed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="integration-guide.html" class="nav-button prev">Integration Guide</a>
+                    <a href="enterprise-deployment.html" class="nav-button next">Deployment Guide</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

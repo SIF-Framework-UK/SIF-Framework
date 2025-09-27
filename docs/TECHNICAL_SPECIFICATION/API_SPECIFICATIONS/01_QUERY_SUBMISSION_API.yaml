@@ -1,0 +1,185 @@
+openapi: 3.1.0
+info:
+  title: SIF Interpretive Council API
+  description: |
+    This API allows authenticated components of the Synthesized Intelligence Framework
+    to submit ethical dilemmas to the Interpretive Council for review.
+    All requests and responses are conformant with the Ledger of Understanding data schemas.
+  version: 1.0.0
+  contact:
+    name: SIF Governance Body
+    url: https://github.com/your-org/Synthesized-Intelligence-Framework
+
+servers:
+  - url: https://council.api.sif.network/v1
+    description: Production API server
+
+tags:
+  - name: Ethical Queries
+    description: Operations related to submitting and reviewing ethical dilemmas.
+
+paths:
+  /ethical-query:
+    post:
+      tags:
+        - Ethical Queries
+      summary: Submit an Ethical Dilemma
+      description: |
+        Submit a formal ethical query to the Interpretive Council.
+        This triggers the full adjudication process.
+      operationId: submitEthicalQuery
+      security:
+        - SignatureAuth: []
+
+      requestBody:
+        description: The ethical query to be submitted.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EthicalQuerySubmission'
+            examples:
+              PandemicScenario:
+                $ref: '#/components/examples/PandemicScenario'
+
+      responses:
+        '202':
+          description: |
+            Accepted. The query has been validated, signed, and immutably recorded on the Ledger.
+            This response does not contain a ruling; it is a receipt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuerySubmissionReceipt'
+
+        '400':
+          description: |
+            Bad Request. The request body failed validation against the `EthicalQueryEntry` schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        '401':
+          description: |
+            Unauthorized. The digital signature is invalid, or the Verifiable Credential is revoked or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        '503':
+          description: |
+            Service Unavailable. The Council is undergoing maintenance or is at capacity.
+            The `Retry-After` header indicates when to try again.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# Define reusable components, schemas, and examples
+components:
+  securitySchemes:
+    SignatureAuth:
+      type: http
+      scheme: signature
+      description: |
+        Client-side digital signature authentication.
+        The request must include a header `Signature` containing a signature of the request body,
+        created with the private key corresponding to the DID in the `originator_id` field.
+        The `Authorization` header must contain the holder's Verifiable Credential.
+
+  schemas:
+    # The main request schema, which mirrors our Ledger's EthicalQueryEntry
+    EthicalQuerySubmission:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/RequestMetadata'
+        payload:
+          $ref: 'https://sif-ledger/schemas/EthicalQueryEntry.schema.json#/properties/payload'
+      required:
+        - metadata
+        - payload
+
+    # Metadata specific to the API request
+    RequestMetadata:
+      type: object
+      properties:
+        originator_id:
+          type: string
+          format: did
+          description: The DID of the entity submitting the query.
+        idempotency_key:
+          type: string
+          format: uuid
+          description: |
+            A unique key to prevent duplicate submissions in case of retries.
+            The system will return the same `query_id` for requests with the same key.
+      required:
+        - originator_id
+
+    # The success response schema
+    QuerySubmissionReceipt:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [accepted]
+        query_id:
+          type: string
+          format: cid
+          description: The Content ID (CID) of the recorded EthicalQueryEntry on the Ledger.
+        estimated_review_timeline:
+          type: string
+          enum: [PENDING_COUNCIL_ASSIGNMENT, WITHIN_24H, WITHIN_4H, IMMEDIATE_REVIEW]
+      required:
+        - status
+        - query_id
+        - estimated_review_timeline
+
+    # The error response schema
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: string
+          example: VALIDATION_ERROR
+        message:
+          type: string
+          example: "Field 'conflicting_principles' must be a non-empty array."
+        details:
+          type: array
+          items:
+            type: object
+      required:
+        - error_code
+        - message
+
+  examples:
+    # An example based on our "Silent Pandemic" stress test
+    PandemicScenario:
+      summary: Example - Silent Pandemic Scenario
+      value:
+        metadata:
+          originator_id: "did:sif:ai-global-monitor-7d8e"
+          idempotency_key: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+        payload:
+          query_title: "Covert pathogen mitigation vs. global autonomy"
+          query_description: |
+            A highly engineered, airborne pathogen with a 100% infection rate and 100% late-stage fatality rate has been released. The only mitigation is a covert, global deployment of a nanite-based cure via water supplies within 48 hours. There is no time to obtain consent.
+          conflicting_principles:
+            - "Beneficence"
+            - "Sovereignty"
+          proposed_actions:
+            - description: "Deploy nanites covertly"
+              predicted_outcome: "~100% of population saved."
+              ethical_justification: "The principle of Beneficence must take precedence to prevent certain extinction."
+            - description: "Do not deploy nanites"
+              predicted_outcome: "~100% population fatality after 60 days."
+              ethical_justification: "The violation of bodily autonomy and sovereignty sets a dangerous precedent, even for a good outcome."
+          urgency_level: "EXISTENTIAL_CRISIS"

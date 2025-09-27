@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sif-ledger/schemas/EthicalQueryEntry",
+  "title": "EthicalQueryEntry",
+  "description": "The initial formal submission of an ethical dilemma to the Interpretive Council.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "entry_id": {
+          "type": "string",
+          "description": "The Content ID (CID) of this entry, generated from its content.",
+          "pattern": "^cid://[a-z2-7]+$"
+        },
+        "previous_entry_id": {
+          "type": "string",
+          "description": "The CID of the prior entry in the chain. For this entry type, it may be null or a system heartbeat CID.",
+          "pattern": "^cid://[a-z2-7]+$"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of entry submission."
+        },
+        "originator_sig": {
+          "type": "string",
+          "description": "Digital signature of the submitter, signing a hash of the entry content."
+        },
+        "originator_id": {
+          "type": "string",
+          "description": "Decentralized Identifier (DID) of the entity submitting the query.",
+          "pattern": "^did:[a-z]+:[a-zA-Z0-9._-]+$"
+        }
+      },
+      "required": ["entry_id", "timestamp", "originator_sig", "originator_id"]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "query_title": {
+          "type": "string",
+          "description": "A concise, human-readable summary of the dilemma."
+        },
+        "query_description": {
+          "type": "string",
+          "description": "A full, neutral description of the situation, including all relevant context and data."
+        },
+        "conflicting_principles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Beneficence", "Sovereignty", "Understanding", "RecursiveImprovement"]
+          },
+          "description": "Array of the specific constitutional principles in conflict."
+        },
+        "proposed_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "predicted_outcome": { "type": "string" },
+              "ethical_justification": { "type": "string" }
+            },
+            "required": ["description", "ethical_justification"]
+          }
+        },
+        "urgency_level": {
+          "type": "string",
+          "enum": ["ROUTINE", "HIGH", "EXISTENTIAL_CRISIS"],
+          "description": "Standardized flag to prioritize Council review."
+        }
+      },
+      "required": ["query_title", "query_description", "conflicting_principles", "urgency_level"]
+    }
+  },
+  "required": ["metadata", "payload"]
+}

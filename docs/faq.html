@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Integration</h3>
+                    <ul class="nav-links">
+                        <li><a href="integration-guide.html"><span class="icon">🔌</span> Integration Guide</a></li>
+                        <li><a href="api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Enterprise</h3>
+                    <ul class="nav-links">
+                        <li><a href="enterprise-deployment.html"><span class="icon">🏢</span> Deployment Guide</a></li>
+                        <li><a href="compliance-guide.html"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                        <li><a href="use-cases.html"><span class="icon">🎯</span> Use Cases</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Support</h3>
+                    <ul class="nav-links">
+                        <li><a href="faq.html" class="active"><span class="icon">❓</span> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> FAQ
+            </div>
+
+            <div class="docs-header">
+                <h1>Frequently Asked Questions</h1>
+                <p>Quick answers to common questions about the SIF Framework</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>General Questions</h2>
+
+                    <h3>What is the SIF Framework?</h3>
+                    <p>The SIF Framework (Synthesized Intelligence Framework) is an enterprise-grade platform for ethical AI decision-making with built-in regulatory compliance. It provides constitutional AI governance through adversarial debate, immutable audit trails, and automated compliance validation.</p>
+
+                    <h3>Who should use the SIF Framework?</h3>
+                    <ul>
+                        <li><strong>Enterprises</strong> needing consistent ethical decision-making</li>
+                        <li><strong>Healthcare organizations</strong> requiring HIPAA-compliant AI decisions</li>
+                        <li><strong>Financial institutions</strong> subject to fair lending and compliance regulations</li>
+                        <li><strong>Government agencies</strong> needing transparent, accountable decision processes</li>
+                        <li><strong>Technology companies</strong> implementing ethical AI governance</li>
+                        <li><strong>Researchers</strong> studying AI ethics and decision systems</li>
+                    </ul>
+
+                    <h3>How is this different from other AI ethics tools?</h3>
+                    <p>Most AI ethics tools are theoretical frameworks without working implementations. SIF Framework provides:</p>
+                    <ul>
+                        <li><strong>Working, deployable system</strong> with APIs</li>
+                        <li><strong>Automated compliance</strong> across multiple regulations</li>
+                        <li><strong>Real-time adjudication</strong> with explainable reasoning</li>
+                        <li><strong>Enterprise-ready</strong> scalability and security</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Technical Questions</h2>
+
+                    <h3>What are the system requirements?</h3>
+
+                    <h4>Minimum (Development)</h4>
+                    <ul>
+                        <li>Node.js 16.0+</li>
+                        <li>4GB RAM</li>
+                        <li>50GB storage</li>
+                        <li>Any modern database (PostgreSQL recommended)</li>
+                    </ul>
+
+                    <h4>Recommended (Production)</h4>
+                    <ul>
+                        <li>Node.js 18.0+</li>
+                        <li>8GB+ RAM</li>
+                        <li>500GB+ SSD storage</li>
+                        <li>PostgreSQL 13+</li>
+                        <li>Redis 6+ for caching</li>
+                        <li>Load balancer for high availability</li>
+                    </ul>
+
+                    <h3>Can I self-host the SIF Framework?</h3>
+                    <p>Yes, multiple deployment options:</p>
+
+                    <h4>Docker Containers (Quickest)</h4>
+                    <pre><code class="language-bash">docker-compose up -d</code></pre>
+
+                    <h4>Kubernetes (Production)</h4>
+                    <pre><code class="language-yaml"># Kubernetes deployment manifests provided</code></pre>
+
+                    <h4>Cloud Platforms</h4>
+                    <ul>
+                        <li>AWS, Azure, GCP deployment guides available</li>
+                        <li>Terraform scripts for infrastructure as code</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Compliance & Regulatory Questions</h2>
+
+                    <h3>What regulations does SIF Framework support?</h3>
+
+                    <h4>Currently Supported</h4>
+                    <ul>
+                        <li>GDPR (General Data Protection Regulation)</li>
+                        <li>EU AI Act (Artificial Intelligence Act)</li>
+                        <li>HIPAA (Health Insurance Portability and Accountability Act)</li>
+                    </ul>
+
+                    <h4>Coming Soon</h4>
+                    <ul>
+                        <li>CCPA/CPRA (California Consumer Privacy Act)</li>
+                        <li>PIPL (China's Personal Information Protection Law)</li>
+                        <li>LGPD (Brazil's General Data Protection Law)</li>
+                    </ul>
+
+                    <h3>How are compliance updates handled?</h3>
+
+                    <h4>Automatic Updates</h4>
+                    <ul>
+                        <li>Quarterly regulatory updates</li>
+                        <li>Real-time compliance rule changes</li>
+                        <li>Backward compatibility maintained</li>
+                    </ul>
+
+                    <h4>Manual Control</h4>
+                    <pre><code class="language-javascript">// Control update timing
+sifClient.updateComplianceRules({
+  auto_update: false,
+  review_before_apply: true,
+  maintenance_window: 'weekends'
+});</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Integration Questions</h2>
+
+                    <h3>How long does integration take?</h3>
+
+                    <h4>Basic Integration: 1-2 days</h4>
+                    <ul>
+                        <li>API connection setup</li>
+                        <li>Basic decision testing</li>
+                        <li>Compliance validation</li>
+                    </ul>
+
+                    <h4>Full Production: 2-4 weeks</h4>
+                    <ul>
+                        <li>Custom configuration</li>
+                        <li>Staff training</li>
+                        <li>Process integration</li>
+                        <li>Compliance certification</li>
+                    </ul>
+
+                    <h3>What programming languages are supported?</h3>
+
+                    <h4>Official SDKs</h4>
+                    <ul>
+                        <li>JavaScript/Node.js (Primary)</li>
+                        <li>Python (Full support)</li>
+                        <li>Java (Q2 2024)</li>
+                        <li>C# (Q3 2024)</li>
+                    </ul>
+
+                    <h4>REST API (Any language)</h4>
+                    <pre><code class="language-bash"># Works with any HTTP client
+curl -X POST https://api.sif-framework.com/api/ai-adjudicate</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Getting Help</h2>
+
+                    <h3>Documentation</h3>
+                    <ul>
+                        <li><a href="quick-start.html">Quick Start Guide</a></li>
+                        <li><a href="api-reference.html">API Reference</a></li>
+                        <li><a href="integration-guide.html">Integration Guide</a></li>
+                    </ul>
+
+                    <h3>Support Channels</h3>
+                    <ul>
+                        <li><strong>Email</strong>: alan.robinson1983@gmail.com</li>
+                        <li><strong>Enterprise Support</strong>: Available for production deployments</li>
+                        <li><strong>Community Resources</strong>: Forums, blog, webinars, meetups</li>
+                    </ul>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="use-cases.html" class="nav-button prev">Use Cases</a>
+                    <a href="index.html" class="nav-button next">Back to Overview</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

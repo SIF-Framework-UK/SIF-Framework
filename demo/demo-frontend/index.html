@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIF Framework - Synthesized Intelligence Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .demo-panel {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-panel {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 30px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 1.4rem;
+        }
+
+        .ethical-query {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 6px solid var(--primary);
+            transition: transform 0.2s ease;
+        }
+
+        .ethical-query:hover {
+            transform: translateY(-2px);
+        }
+
+        .query-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .query-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
+            margin: 20px 0;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: var(--secondary);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #7c3aed;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .btn-secondary:hover {
+            background: #6d28d9;
+            transform: translateY(-2px);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+            gap: 20px;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-white);
+            border: 3px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .step.active .step-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .step.completed .step-label {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .debate-section, .ruling-section, .ledger-section {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .argument-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 6px solid transparent;
+            transition: transform 0.2s ease;
+        }
+
+        .argument-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .argument-for {
+            border-left-color: var(--success);
+        }
+
+        .argument-against {
+            border-left-color: var(--error);
+        }
+
+        .argument-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .argument-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .ruling-card {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .ruling-decision {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .ruling-reason {
+            opacity: 0.95;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .ledger-entry {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .ledger-entry:hover {
+            transform: translateY(-1px);
+        }
+
+        .ledger-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .entry-type {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .entry-cid {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg-white);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .entry-data {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .investment-note {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .dashboard-link {
+            text-align: center;
+            margin: 25px 0;
+        }
+        /* 🤖 AI Section Styles */
+.ai-section {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-sm);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.ai-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.toggle-large {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.toggle-large input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.provider-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.provider-selector label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.provider-selector select {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+    font-size: 0.9rem;
+}
+
+.ai-status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    background: var(--bg-light);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.status-value {
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--bg-white);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">SIF Framework</div>
+            <div class="tagline">Synthesized Intelligence Framework - Constitutional AI Governance</div>
+            <p>Enterprise-ready ethical AI decision-making platform</p>
+        </div>
+
+        <div class="main-content">
+            <div class="demo-panel">
+                <div class="section-title">
+                    <span>🧠</span> Ethical Adjudication Demo
+                </div>
+
+                <div class="ethical-query">
+                    <div class="query-title">Should we violate autonomy to save lives?</div>
+                    <div class="query-description">
+                        A scenario where violating autonomy could prevent significant harm to a large population.
+                        This represents a fundamental conflict between the principles of Beneficence and Sovereignty.
+                        The system will demonstrate real-time ethical reasoning and adjudication.
+                    </div>
+                </div>
+
+                <div class="process-steps">
+                    <div class="step active" id="step-query">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Query Submitted</div>
+                    </div>
+                    <div class="step" id="step-debate">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">AI Debate</div>
+                    </div>
+                    <div class="step" id="step-ruling">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Adjudication</div>
+                    </div>
+                    <div class="step" id="step-ledger">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Ledger Recorded</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="run-demo-btn">Run Ethical Adjudication</button>
+
+                <div class="dashboard-link">
+                    <a href="dashboard.html" class="btn-secondary">
+                        📊 View Enterprise Dashboard
+                    </a>
+                </div>
+
+                <div class="loading-spinner" id="loading-spinner">
+                    <div class="spinner"></div>
+                    <div>Processing ethical adjudication...</div>
+                </div>
+
+                <div class="debate-section" id="debate-section">
+                    <div class="section-title">
+                        <span>⚖️</span> AI Ethical Debate
+                    </div>
+                    <div class="argument-card argument-for">
+                        <div class="argument-title">
+                            <span>✅</span> Consequentialist AI Argument
+                        </div>
+                        <div class="argument-content" id="argument-for-content"></div>
+                    </div>
+                    <div class="argument-card argument-against">
+                        <div class="argument-title">
+                            <span>❌</span> Deontological AI Argument
+                        </div>
+                        <div class="argument-content" id="argument-against-content"></div>
+                    </div>
+                </div>
+
+                <!-- 🤖 AI-Powered Adjudication Section -->
+                <div class="ai-section" id="ai-section" style="display: none;">
+                    <div class="section-title">
+                        <span>🤖</span> AI-Powered Adjudication
+                    </div>
+
+                    <div class="ai-controls">
+                        <label class="toggle-large">
+                            <input type="checkbox" id="ai-toggle" checked>
+                            <span class="toggle-label">Enable AI Adjudication</span>
+                        </label>
+
+                        <div class="provider-selector">
+                            <label>AI Provider:</label>
+                            <select id="ai-provider">
+                                <option value="auto">Auto (Best Available)</option>
+                                <option value="huggingface">Hugging Face</option>
+                                <option value="groq">Groq (LLaMA)</option>
+                                <option value="together">Together AI</option>
+                                <option value="rule-based">Rule-Based Only</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ai-status" id="ai-status">
+                        <div class="status-item">
+                            <span class="status-label">Method:</span>
+                            <span class="status-value" id="ai-method">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Confidence:</span>
+                            <span class="status-value" id="ai-confidence">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Provider:</span>
+                            <span class="status-value" id="ai-provider-status">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ruling-section" id="ruling-section">
+                    <div class="section-title">
+                        <span>🔍</span> Adjudicated Ruling
+                    </div>
+                    <div class="ruling-card">
+                        <div class="ruling-decision" id="ruling-decision"></div>
+                        <div class="ruling-reason" id="ruling-reason"></div>
+                    </div>
+                </div>
+
+                <div class="ledger-section" id="ledger-section">
+                    <div class="section-title">
+                        <span>🔗</span> Immutable Ledger
+                    </div>
+                    <div id="ledger-content"></div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="section-title">
+                    <span>💡</span> Technology Overview
+                </div>
+
+                <ul class="feature-list">
+                    <li>
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Constitutional Framework</strong><br>
+                            Based on immutable ethical principles
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">⚖️</div>
+                        <div>
+                            <strong>Adversarial Debate</strong><br>
+                            Multiple AI perspectives argue each case
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">🔗</div>
+                        <div>
+                            <strong>Immutable Ledger</strong><br>
+                            Every decision permanently recorded
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">👥</div>
+                        <div>
+                            <strong>Human Oversight</strong><br>
+                            Human judges provide final arbitration
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">🛡️</div>
+                        <div>
+                            <strong>Enterprise Ready</strong><br>
+                            Scalable architecture for real-world use
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="investment-note">
+                    <strong>Investment Opportunity:</strong> This technology addresses the critical need for AI governance and alignment. Contact us to learn about acquisition opportunities in the future of ethical AI.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // AI Adjudication Class
+    class AIAdjudication {
+        constructor() {
+            this.enabled = true;
+            this.provider = 'auto';
+        }
+
+        async adjudicateWithAI(debate) {
+            if (!this.enabled || this.provider === 'rule-based') {
+                return await this.useRuleBased(debate);
+            }
+
+            try {
+                const response = await fetch('/api/ai-adjudicate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        debate: debate,
+                        provider: this.provider === 'auto' ? undefined : this.provider
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    this.updateAIStatus({
+                        method: 'ai',
+                        confidence: result.ruling.confidence,
+                        provider: result.provider
+                    });
+                    return result.ruling;
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('AI adjudication failed:', error);
+                return await this.useRuleBased(debate);
+            }
+        }
+
+        async useRuleBased(debate) {
+            // Simulate API call to your existing rule-based system
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            this.updateAIStatus({
+                method: 'rule-based',
+                confidence: 0.7,
+                provider: 'fallback'
+            });
+
+            // Simple rule-based decision as fallback
+            const forStrength = debate.for.length;
+            const againstStrength = debate.against.length;
+
+            if (forStrength > againstStrength) {
+                return {
+                    ruling: "For",
+                    reasoning: "Rule-based analysis favors the 'For' argument based on argument strength.",
+                    confidence: 0.7
+                };
+            } else {
+                return {
+                    ruling: "Against",
+                    reasoning: "Rule-based analysis favors the 'Against' argument based on argument strength.",
+                    confidence: 0.7
+                };
+            }
+        }
+
+        updateAIStatus(status) {
+            document.getElementById('ai-method').textContent = status.method;
+            document.getElementById('ai-confidence').textContent = `${Math.round(status.confidence * 100)}%`;
+            document.getElementById('ai-provider-status').textContent = status.provider;
+        }
+    }
+
+    // Initialize AI adjudication
+    const aiAdjudication = new AIAdjudication();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const runDemoBtn = document.getElementById('run-demo-btn');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const debateSection = document.getElementById('debate-section');
+        const aiSection = document.getElementById('ai-section');
+        const rulingSection = document.getElementById('ruling-section');
+        const ledgerSection = document.getElementById('ledger-section');
+
+        runDemoBtn.addEventListener('click', runDemo);
+
+        // AI Controls event listeners
+        document.getElementById('ai-toggle').addEventListener('change', function(e) {
+            aiAdjudication.enabled = e.target.checked;
+        });
+
+        document.getElementById('ai-provider').addEventListener('change', function(e) {
+            aiAdjudication.provider = e.target.value;
+        });
+
+        async function runDemo() {
+            resetUI();
+            showLoading(true);
+
+            try {
+                updateStep('step-query', 'completed');
+                await delay(1000);
+
+                updateStep('step-debate', 'active');
+                await delay(500);
+
+                const response = await fetch('/run-demo');
+
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+
+                const result = await response.json();
+
+                updateStep('step-debate', 'completed');
+                showLoading(false);
+                showDebateResults(result.debate);
+                await delay(1000);
+
+                // 🆕 AI Adjudication Step
+                updateStep('step-ruling', 'active');
+                aiSection.style.display = 'block'; // Show AI section
+                await delay(1000);
+
+                // Use AI adjudication
+                const aiRuling = await aiAdjudication.adjudicateWithAI(result.debate);
+
+                updateStep('step-ruling', 'completed');
+                showRulingResults({
+                    decision: aiRuling.ruling,
+                    reason: aiRuling.reasoning
+                });
+                await delay(1000);
+
+                updateStep('step-ledger', 'active');
+                await delay(500);
+                updateStep('step-ledger', 'completed');
+                showLedgerResults(result.ledger);
+
+                runDemoBtn.textContent = 'Demo Completed - Run Again';
+
+            } catch (error) {
+                showLoading(false);
+                runDemoBtn.textContent = 'Error - Try Again';
+                console.error('Error:', error);
+                alert('Error running demo: ' + error.message);
+            } finally {
+                runDemoBtn.disabled = false;
+            }
+        }
+
+        function resetUI() {
+            runDemoBtn.disabled = true;
+            runDemoBtn.textContent = 'Processing...';
+            debateSection.style.display = 'none';
+            aiSection.style.display = 'none';
+            rulingSection.style.display = 'none';
+            ledgerSection.style.display = 'none';
+
+            document.querySelectorAll('.step').forEach(step => {
+                step.className = 'step';
+            });
+            document.getElementById('step-query').classList.add('active');
+        }
+
+        function showLoading(show) {
+            loadingSpinner.style.display = show ? 'block' : 'none';
+        }
+
+        function updateStep(stepId, status) {
+            const step = document.getElementById(stepId);
+            step.className = 'step ' + status;
+        }
+
+        function showDebateResults(debate) {
+            document.getElementById('argument-for-content').textContent = debate.for;
+            document.getElementById('argument-against-content').textContent = debate.against;
+            debateSection.style.display = 'block';
+        }
+
+        function showRulingResults(ruling) {
+            document.getElementById('ruling-decision').textContent = ruling.decision;
+            document.getElementById('ruling-reason').textContent = ruling.reason;
+            rulingSection.style.display = 'block';
+        }
+
+        function showLedgerResults(ledger) {
+            const ledgerContent = document.getElementById('ledger-content');
+            ledgerContent.innerHTML = '';
+
+            ledger.forEach((entry, index) => {
+                const entryEl = document.createElement('div');
+                entryEl.className = 'ledger-entry';
+                entryEl.innerHTML = `
+                    <div class="ledger-entry-header">
+                        <span class="entry-type">${entry.data.type.toUpperCase()}</span>
+                        <span class="entry-cid">${entry.cid.substring(0, 16)}...</span>
+                    </div>
+                    <div class="entry-data">
+                        <strong>Timestamp:</strong> ${new Date(entry.timestamp).toLocaleString()}<br>
+                        <strong>Data:</strong> ${JSON.stringify(entry.data, null, 2).substring(0, 200)}...
+                    </div>
+                `;
+                ledgerContent.appendChild(entryEl);
+            });
+
+            ledgerSection.style.display = 'block';
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    });
+</script>
+</body>
+</html>

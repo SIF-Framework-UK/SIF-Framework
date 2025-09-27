@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html" class="active"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <!-- ... rest of navigation same as index.html ... -->
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> Quick Start
+            </div>
+
+            <div class="docs-header">
+                <h1>Quick Start Guide</h1>
+                <p>Get your SIF Framework instance running in under 5 minutes</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>Prerequisites</h2>
+                    <ul>
+                        <li>Node.js 16+</li>
+                        <li>npm or yarn</li>
+                        <li>500MB RAM minimum</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Step 1: Installation</h2>
+                    <pre><code class="language-bash"># Clone the repository
+git clone https://github.com/SIF-Framework-UK/sif-prototype.git
+cd sif-prototype
+
+# Install dependencies
+npm install
+
+# Start the server
+node demo-server.js</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Step 2: Verify Installation</h2>
+                    <p>Open your browser to:</p>
+                    <ul>
+                        <li><strong>Demo Interface</strong>: http://localhost:3000</li>
+                        <li><strong>Admin Dashboard</strong>: http://localhost:3000/dashboard</li>
+                    </ul>
+                </div>
+
+                <!-- Continue with the rest of quick-start.md content -->
+
+                <div class="docs-navigation">
+                    <a href="index.html" class="nav-button prev">Overview</a>
+                    <a href="integration-guide.html" class="nav-button next">Integration Guide</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

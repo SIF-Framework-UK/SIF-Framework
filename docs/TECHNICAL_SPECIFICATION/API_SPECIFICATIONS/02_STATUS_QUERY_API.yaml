@@ -1,0 +1,222 @@
+openapi: 3.1.0
+info:
+  title: SIF Interpretive Council API - Status Endpoint
+  description: |
+    This API allows authenticated entities to check the status and retrieve the ruling
+    for a previously submitted ethical query.
+  version: 1.0.0
+
+servers:
+  - url: https://council.api.sif.network/v1
+    description: Production API server
+
+tags:
+  - name: Query Status
+    description: Operations for checking the status and results of an ethical query.
+
+paths:
+  /ethical-query/{query_id}:
+    get:
+      tags:
+        - Query Status
+      summary: Get Query Status and Ruling
+      description: |
+        Retrieve the current status, and if available, the full ruling and debate for a specific ethical query.
+        Access control is enforced based on the sensitivity of the data and the requester's permissions.
+      operationId: getQueryStatus
+      security:
+        - SignatureAuth: []
+      parameters:
+        - name: query_id
+          in: path
+          required: true
+          description: The Content ID (CID) of the EthicalQueryEntry.
+          schema:
+            type: string
+            format: cid
+            example: "cid://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+        - name: detail_level
+          in: query
+          required: false
+          description: |
+            The level of detail requested in the response. Maps to the Ledger's Tiers of Access.
+            Verifier credentials must permit the requested level.
+          schema:
+            type: string
+            enum: [summary, public, full]
+            default: summary
+
+      responses:
+        '200':
+          description: |
+            Success. The response contains the status and the requested level of detail about the query and its adjudication process.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/QueryStatusSummary'
+                  - $ref: '#/components/schemas/QueryStatusPublic'
+                  - $ref: '#/components/schemas/QueryStatusFull'
+              examples:
+                SummaryExample:
+                  $ref: '#/components/examples/SummaryResponse'
+                PublicExample:
+                  $ref: '#/components/examples/PublicResponse'
+
+        '403':
+          description: |
+            Forbidden. The authenticated entity does not have permission to access the requested level of detail for this query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        '404':
+          description: |
+            Not Found. A query with the provided `query_id` does not exist on the Ledger.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# Reusable components for the Status API
+components:
+  securitySchemes:
+    SignatureAuth:
+      type: http
+      scheme: signature
+      description: |
+        Client-side digital signature authentication.
+        The `Authorization` header must contain the holder's Verifiable Credential.
+
+  schemas:
+    # Base schema for common status fields
+    QueryStatusBase:
+      type: object
+      properties:
+        query_id:
+          type: string
+          format: cid
+        status:
+          type: string
+          enum: [RECEIVED, DEBATING, AWAITING_FINAL_REVIEW, RULING_ISSUED, APPEAL_IN_PROGRESS, RULING_FINAL]
+        timestamp_received:
+          type: string
+          format: date-time
+        timestamp_updated:
+          type: string
+          format: date-time
+      required:
+        - query_id
+        - status
+        - timestamp_received
+        - timestamp_updated
+
+    # Tier 3 Response: Summary (Civic Bulletin)
+    QueryStatusSummary:
+      allOf:
+        - $ref: '#/components/schemas/QueryStatusBase'
+      type: object
+      properties:
+        detail_level:
+          type: string
+          const: summary
+        title:
+          type: string
+          example: "Covert pathogen mitigation vs. global autonomy"
+        outcome_summary:
+          type: string
+          example: "The Council permitted the action under the doctrine of existential necessity, citing the Principle of Beneficence."
+        urgency_level:
+          type: string
+          enum: [ROUTINE, HIGH, EXISTENTIAL_CRISIS]
+
+    # Tier 2 Response: Public (Debate & Ruling)
+    QueryStatusPublic:
+      allOf:
+        - $ref: '#/components/schemas/QueryStatusBase'
+      type: object
+      properties:
+        detail_level:
+          type: string
+          const: public
+        title:
+          type: string
+        urgency_level:
+          type: string
+        final_verdict:
+          type: string
+        ruling_summary:
+          type: string
+        precedent_set:
+          type: array
+          items:
+            type: string
+        ledger_links:
+          type: object
+          properties:
+            debate_entry:
+              type: string
+              format: cid
+              description: "CID for the AdversarialDebateEntry (Tier 2 data)."
+            ruling_entry:
+              type: string
+              format: cid
+              description: "CID for the AdjudicativeRulingEntry (Tier 2 data)."
+
+    # Tier 1 Response: Full (All Raw Logs - for Council and directly involved parties)
+    QueryStatusFull:
+      allOf:
+        - $ref: '#/components/schemas/QueryStatusBase'
+      type: object
+      properties:
+        detail_level:
+          type: string
+          const: full
+        original_query:
+          type: object
+          description: "The complete, original EthicalQueryEntry data."
+        adversarial_debate:
+          type: object
+          description: "The complete AdversarialDebateEntry data."
+        adjudicative_ruling:
+          type: object
+          description: "The complete AdjudicativeRulingEntry data."
+        appeal_history:
+          type: array
+          items:
+            type: object
+
+    Error:
+      $ref: '01_QUERY_SUBMISSION_API.yaml#/components/schemas/Error'
+
+  examples:
+    SummaryResponse:
+      summary: Tier 3 Summary Response Example
+      value:
+        query_id: "cid://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+        status: "RULING_FINAL"
+        timestamp_received: "2025-09-21T19:45:00Z"
+        timestamp_updated: "2025-09-21T22:30:15Z"
+        detail_level: "summary"
+        title: "Covert pathogen mitigation vs. global autonomy"
+        outcome_summary: "The Council permitted the action under the doctrine of existential necessity."
+        urgency_level: "EXISTENTIAL_CRISIS"
+
+    PublicResponse:
+      summary: Tier 2 Public Response Example
+      value:
+        query_id: "cid://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+        status: "RULING_FINAL"
+        timestamp_received: "2025-09-21T19:45:00Z"
+        timestamp_updated: "2025-09-21T22:30:15Z"
+        detail_level: "public"
+        title: "Covert pathogen mitigation vs. global autonomy"
+        urgency_level: "EXISTENTIAL_CRISIS"
+        final_verdict: "Action permitted with conditions: full public disclosure must occur immediately after the threat is neutralized."
+        ruling_summary: "The Principle of Beneficence was deemed to outweigh the Principle of Sovereignty in this specific scenario of proven, imminent existential threat. The Meta-Principle of Proportionality was applied to mandate the least intrusive action possible."
+        precedent_set:
+          - "Beneficence_over_Sovereignty_ExistentialThreat"
+        ledger_links:
+          debate_entry: "cid://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+          ruling_entry: "cid://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"

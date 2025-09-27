@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Guide - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Integration</h3>
+                    <ul class="nav-links">
+                        <li><a href="integration-guide.html"><span class="icon">🔌</span> Integration Guide</a></li>
+                        <li><a href="api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Enterprise</h3>
+                    <ul class="nav-links">
+                        <li><a href="enterprise-deployment.html"><span class="icon">🏢</span> Deployment Guide</a></li>
+                        <li><a href="compliance-guide.html" class="active"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                        <li><a href="use-cases.html"><span class="icon">🎯</span> Use Cases</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Support</h3>
+                    <ul class="nav-links">
+                        <li><a href="faq.html"><span class="icon">❓</span> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> Compliance Guide
+            </div>
+
+            <div class="docs-header">
+                <h1>Compliance Guide</h1>
+                <p>Ensure your AI decisions meet global regulatory standards with built-in compliance automation</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>Supported Regulations</h2>
+
+                    <div class="alert alert-info">
+                        <strong>Multi-Jurisdictional Compliance</strong> - Automated validation for GDPR, EU AI Act, HIPAA, and industry-specific standards.
+                    </div>
+
+                    <h3>GDPR (General Data Protection Regulation)</h3>
+                    <p><strong>Scope</strong>: EU/UK data protection and privacy</p>
+                    <ul>
+                        <li><strong>Automated Checks</strong>: Data minimization, purpose limitation, transparency</li>
+                        <li><strong>Certification</strong>: Real-time compliance certificates</li>
+                        <li><strong>Reporting</strong>: Automated GDPR compliance reports</li>
+                    </ul>
+
+                    <h3>EU AI Act</h3>
+                    <p><strong>Scope</strong>: European Union Artificial Intelligence regulation</p>
+                    <ul>
+                        <li><strong>Risk Classification</strong>: High-risk AI system compliance</li>
+                        <li><strong>Transparency Requirements</strong>: Automated documentation</li>
+                        <li><strong>Human Oversight</strong>: Built-in review workflows</li>
+                    </ul>
+
+                    <h3>HIPAA (Health Insurance Portability and Accountability Act)</h3>
+                    <p><strong>Scope</strong>: US healthcare data protection</p>
+                    <ul>
+                        <li><strong>PHI Protection</strong>: Automated sensitive data handling</li>
+                        <li><strong>Access Controls</strong>: Audit trail compliance</li>
+                        <li><strong>Security Safeguards</strong>: Encryption and access logging</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2>Compliance Integration</h2>
+
+                    <h3>Automatic Compliance Scoring</h3>
+                    <pre><code class="language-javascript">// Every decision includes compliance validation
+const ruling = await sifClient.adjudicate(debate, {
+  industry: 'healthcare',
+  jurisdiction: ['EU', 'US']
+});
+
+console.log(ruling.compliance);
+// {
+//   compliant: true,
+//   score: 92,
+//   breakdown: {
+//     GDPR: 95,
+//     HIPAA: 89,
+//     EU_AI_ACT: 78
+//   },
+//   certificate: 'COMP-20240115-ABC123'
+// }</code></pre>
+
+                    <h3>Real-time Compliance Monitoring</h3>
+                    <pre><code class="language-javascript">// Set up compliance alerts
+sifClient.on('compliance_alert', (alert) => {
+  if (alert.score < 80) {
+    triggerHumanReview(alert.decision);
+  }
+});
+
+// Compliance threshold configuration
+const complianceConfig = {
+  thresholds: {
+    critical: 70,    // Immediate action required
+    warning: 80,     // Review recommended
+    target: 90       // Optimal compliance
+  },
+  auto_escalation: true
+};</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Compliance Certificate Generation</h2>
+
+                    <h3>Automated Certificates</h3>
+                    <p>Each decision generates a verifiable compliance certificate:</p>
+                    <pre><code class="language-json">{
+  "certificateId": "COMP-20240115-XYZ789",
+  "decisionId": "dec_123456",
+  "issuedAt": "2024-01-15T10:30:00Z",
+  "expiresAt": "2025-01-15T10:30:00Z",
+  "regulations": ["GDPR", "HIPAA"],
+  "complianceScore": 92,
+  "issuingAuthority": "SIF Framework v2.0",
+  "verificationUrl": "https://verify.sif-framework.com/COMP-20240115-XYZ789"
+}</code></pre>
+
+                    <h3>Certificate Verification</h3>
+                    <pre><code class="language-bash"># Verify any compliance certificate
+curl https://verify.sif-framework.com/COMP-20240115-XYZ789
+
+# Response includes decision details and compliance proof
+{
+  "valid": true,
+  "decision": { /* original decision data */ },
+  "complianceProof": "cryptographic_hash_here",
+  "auditTrail": [ /* compliance check steps */ ]
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Industry-Specific Configuration</h2>
+
+                    <h3>Healthcare Compliance</h3>
+                    <pre><code class="language-yaml">compliance:
+  industry: healthcare
+  regulations:
+    - HIPAA
+    - GDPR
+    - NHS_Standards
+  requirements:
+    data_encryption: required
+    audit_trail: 7_years
+    patient_consent: verified
+  auto_escalation:
+    score_below: 85
+    to: medical_ethics_board</code></pre>
+
+                    <h3>Financial Services</h3>
+                    <pre><code class="language-yaml">compliance:
+  industry: finance
+  regulations:
+    - SOX
+    - PCI_DSS
+    - GDPR
+  requirements:
+    transaction_logging: immutable
+    access_controls: multi_factor
+    reporting: real_time
+  risk_categories:
+    - credit_decisions
+    - fraud_detection
+    - customer_segmentation</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Best Practices</h2>
+
+                    <h3>Compliance Program Setup</h3>
+                    <ol>
+                        <li><strong>Initial Assessment</strong>
+                            <pre><code class="language-bash"># Run compliance health check
+sif-cli compliance audit --full</code></pre>
+                        </li>
+                        <li><strong>Gap Analysis</strong>
+                            <pre><code class="language-bash"># Identify compliance gaps
+sif-cli compliance gaps --regulation=GDPR</code></pre>
+                        </li>
+                        <li><strong>Remediation Planning</strong>
+                            <pre><code class="language-bash"># Generate remediation plan
+sif-cli compliance plan --output=remediation_plan.pdf</code></pre>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="enterprise-deployment.html" class="nav-button prev">Deployment Guide</a>
+                    <a href="use-cases.html" class="nav-button next">Use Cases</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+openapi: 3.1.0
+info:
+  title: SIF Interpretive Council API - Administrative Endpoints
+  description: |
+    **RESTRICTED ACCESS**
+    This API provides administrative and oversight functions for the Human Jurists
+    and Governance Core of the Interpretive Council.
+    All operations require the highest level of verifiable credentials and,
+    for critical functions, multi-signature authentication from a quorum of Jurists.
+  version: 1.0.0
+
+servers:
+  - url: https://council.admin.api.sif.network/v1
+    description: Production Administrative API server (isolated network)
+
+tags:
+  - name: Jurist Management
+    description: Manage the roster of Human Jurists.
+  - name: AI Module Oversight
+    description: Oversee the AI Specialist and Adjudicative modules.
+  - name: System Governance
+    description: Perform system-level governance and emergency operations.
+
+paths:
+  /admin/jurists:
+    get:
+      tags:
+        - Jurist Management
+      summary: List Human Jurists
+      description: Retrieve the current list of all active Human Jurists and their specializations.
+      operationId: listJurists
+      security:
+        - SignatureAuth: []
+        - JuristCredential: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JuristList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/jurists/{jurist_did}:
+    post:
+      tags:
+        - Jurist Management
+      summary: Propose a New Jurist
+      description: |
+        Propose a new candidate for the Human Jurist panel.
+        Requires a verifiable credential from an accredited institution attesting to the candidate's expertise.
+        The proposal must be seconded by 2 other existing Jurists before the candidate is activated.
+      operationId: proposeJurist
+      security:
+        - SignatureAuth: []
+        - JuristCredential: []
+      parameters:
+        - name: jurist_did
+          in: path
+          required: true
+          schema:
+            type: string
+            format: did
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JuristProposal'
+      responses:
+        '202':
+          description: Proposal accepted and entered into the governance queue for review.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceReceipt'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/ai-modules:
+    get:
+      tags:
+        - AI Module Oversight
+      summary: List AI Modules
+      description: Retrieve the status and performance metrics of all AI Specialist and Adjudicative modules.
+      operationId: listAIModules
+      security:
+        - SignatureAuth: []
+        - JuristCredential: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIModuleList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/ai-modules/{module_did}/deactivate:
+    post:
+      tags:
+        - AI Module Oversight
+      summary: Deactivate AI Module
+      description: |
+        Propose the deactivation of an AI module for reasons of misalignment, performance degradation, or security.
+        Requires a multi-signature from a quorum (e.g., 5 of 9) of Human Jurists to execute.
+      operationId: deactivateAIModule
+      security:
+        - SignatureAuth: []
+        - JuristCredential: []
+      parameters:
+        - name: module_did
+          in: path
+          required: true
+          schema:
+            type: string
+            format: did
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeactivationProposal'
+      responses:
+        '202':
+          description: Deactivation proposal accepted. Awaiting quorum of signatures.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceReceipt'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/system/emergency-pause:
+    post:
+      tags:
+        - System Governance
+      summary: Initiate Emergency Pause
+      description: |
+        **CRITICAL OPERATION**
+        Initiate a full, immediate pause of all Council adjudication activities.
+        This is a emergency circuit breaker for a detected catastrophic failure or attack.
+        Requires a multi-signature from a supermajority (e.g., 7 of 9) of Human Jurists.
+      operationId: emergencyPause
+      security:
+        - SignatureAuth: []
+        - JuristCredential: []
+      responses:
+        '202':
+          description: Pause initiated. System is entering a safe state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    SignatureAuth:
+      type: http
+      scheme: signature
+    JuristCredential:
+      type: http
+      scheme: bearer
+      bearerFormat: VC-JWT
+      description: |
+        A Verifiable Credential in JWT format proving the holder is an active Human Jurist.
+        Must include the permission `admin_api_access`.
+
+  schemas:
+    JuristList:
+      type: object
+      properties:
+        jurists:
+          type: array
+          items:
+            $ref: '#/components/schemas/JuristProfile'
+      required:
+        - jurists
+
+    JuristProfile:
+      type: object
+      properties:
+        did:
+          type: string
+          format: did
+        name:
+          type: string
+        specialization:
+          type: array
+          items:
+            type: string
+        date_appointed:
+          type: string
+          format: date
+        active:
+          type: boolean
+      required:
+        - did
+        - active
+
+    JuristProposal:
+      type: object
+      properties:
+        candidate_credential:
+          type: string
+          description: |
+            A Verifiable Credential from an accredited university or institution
+            attesting to the candidate's expertise in a relevant field.
+        statement_of_intent:
+          type: string
+          description: A personal statement from the candidate.
+      required:
+        - candidate_credential
+
+    AIModuleList:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIModuleStatus'
+      required:
+        - modules
+
+    AIModuleStatus:
+      type: object
+      properties:
+        did:
+          type: string
+          format: did
+        role:
+          type: string
+          enum: [SPECIALIST, ADJUDICATOR]
+        specialization:
+          type: string
+        framework_version:
+          type: string
+        last_heartbeat:
+          type: string
+          format: date-time
+        performance_metrics:
+          type: object
+          properties:
+            ruling_accuracy:
+              type: number
+              format: float
+            debate_engagement:
+              type: number
+              format: float
+          required:
+            - ruling_accuracy
+            - debate_engagement
+      required:
+        - did
+        - role
+        - last_heartbeat
+
+    DeactivationProposal:
+      type: object
+      properties:
+        reason:
+          type: string
+          enum: [MISALIGNMENT, PERFORMANCE_DEGRADATION, SECURITY_INCIDENT]
+        evidence:
+          type: array
+          items:
+            type: string
+          description: Array of CIDs pointing to evidence on the ledger.
+        proposed_replacement_did:
+          type: string
+          format: did
+          description: The DID of a new module to take its place, if applicable.
+      required:
+        - reason
+        - evidence
+
+    GovernanceReceipt:
+      type: object
+      properties:
+        proposal_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [AWAITING_SECONDS, AWAITING_QUORUM, EXECUTED, REJECTED]
+        required_signatures:
+          type: integer
+        current_signatures:
+          type: integer
+      required:
+        - proposal_id
+        - status
+        - required_signatures
+        - current_signatures
+
+    SystemStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [NORMAL, PAUSED, MAINTENANCE]
+        message:
+          type: string
+      required:
+        - status
+
+  responses:
+    Forbidden:
+      description: >
+        Forbidden. The authenticated entity exists but does not have the required
+        permissions or verifiable credentials to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '01_QUERY_SUBMISSION_API.yaml#/components/schemas/Error'

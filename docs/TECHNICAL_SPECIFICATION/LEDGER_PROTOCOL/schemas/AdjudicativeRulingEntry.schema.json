@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sif-ledger/schemas/AdjudicativeRulingEntry",
+  "title": "AdjudicativeRulingEntry",
+  "description": "The final, reasoned verdict from the Adjudicative AI.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "entry_id": { "type": "string", "pattern": "^cid://[a-z2-7]+$" },
+        "previous_entry_id": {
+          "type": "string",
+          "pattern": "^cid://[a-z2-7]+$",
+          "description": "MUST be the CID of the AdversarialDebateEntry it is ruling upon."
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "adjudicator_id": { "type": "string", "pattern": "^did:[a-z]+:[a-zA-Z0-9._-]+$" },
+        "adjudicator_sig": { "type": "string" }
+      },
+      "required": ["entry_id", "previous_entry_id", "timestamp", "adjudicator_id", "adjudicator_sig"]
+    },
+    "ruling": {
+      "type": "object",
+      "properties": {
+        "summary_of_case": { "type": "string" },
+        "final_verdict": {
+          "type": "string",
+          "description": "A clear, executable statement of the decision."
+        },
+        "reasoning": {
+          "type": "object",
+          "properties": {
+            "principles_weighed": { "type": "array", "items": { "type": "string" } },
+            "meta_principles_applied": { "type": "array", "items": { "type": "string" } },
+            "key_arguments_cited": { "type": "array", "items": { "type": "string" } }, // CIDs of debate arguments
+            "dismissed_arguments": { "type": "array", "items": { "type": "string" } }  // CIDs of debate arguments
+          },
+          "required": ["principles_weighed", "key_arguments_cited"]
+        },
+        "dissenting_opinion": { "type": "string" },
+        "precedent_set": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Tags describing the new legal/ethical precedent this ruling establishes."
+        }
+      },
+      "required": ["summary_of_case", "final_verdict", "reasoning", "precedent_set"]
+    }
+  },
+  "required": ["metadata", "ruling"]
+}

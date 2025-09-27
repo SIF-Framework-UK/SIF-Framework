@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Guide - SIF Framework Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Enterprise AI Governance Documentation</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search documentation...">
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Getting Started</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
+                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Integration</h3>
+                    <ul class="nav-links">
+                        <li><a href="integration-guide.html" class="active"><span class="icon">🔌</span> Integration Guide</a></li>
+                        <li><a href="api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Enterprise</h3>
+                    <ul class="nav-links">
+                        <li><a href="enterprise-deployment.html"><span class="icon">🏢</span> Deployment Guide</a></li>
+                        <li><a href="compliance-guide.html"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                        <li><a href="use-cases.html"><span class="icon">🎯</span> Use Cases</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Support</h3>
+                    <ul class="nav-links">
+                        <li><a href="faq.html"><span class="icon">❓</span> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="index.html">Documentation</a> <span>›</span> Integration Guide
+            </div>
+
+            <div class="docs-header">
+                <h1>Integration Guide</h1>
+                <p>Connect your applications to the SIF Framework in minutes</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>Authentication</h2>
+                    <p>All API requests require an API key:</p>
+                    <pre><code class="language-http">Authorization: Bearer sk_prod_your_production_key_here</code></pre>
+                    <p>Get your keys from the Dashboard → API Keys & Integration.</p>
+                </div>
+
+                <div class="content-section">
+                    <h2>Basic Integration Pattern</h2>
+
+                    <h3>1. Submit Ethical Query</h3>
+                    <pre><code class="language-javascript">// JavaScript Example
+async function getEthicalRuling(query, context) {
+  const response = await fetch('http://your-domain.com/api/ai-adjudicate', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer sk_prod_your_key',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      debate: {
+        for: query.proArgument,
+        against: query.conArgument
+      },
+      industry: 'healthcare',
+      context: context
+    })
+  });
+
+  return await response.json();
+}
+
+// Usage
+const ruling = await getEthicalRuling(
+  {
+    proArgument: "This action will save lives",
+    conArgument: "This violates patient autonomy"
+  },
+  { urgency: 'high', impact: 'large' }
+);</code></pre>
+
+                    <h3>2. Handle Response</h3>
+                    <pre><code class="language-javascript">// Example response handling
+if (ruling.success) {
+  console.log(`Decision: ${ruling.ruling.ruling}`);
+  console.log(`Confidence: ${ruling.ruling.confidence}`);
+  console.log(`Compliance Score: ${ruling.compliance.score}`);
+
+  if (ruling.compliance.compliant) {
+    // Proceed with action
+    executeApprovedAction();
+  } else {
+    // Require human review
+    escalateForReview(ruling);
+  }
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Language-Specific Examples</h2>
+
+                    <h3>Python</h3>
+                    <pre><code class="language-python">import requests
+
+class SIFClient:
+    def __init__(self, api_key, base_url="http://localhost:3000"):
+        self.api_key = api_key
+        self.base_url = base_url
+
+    def adjudicate(self, debate, industry="default"):
+        response = requests.post(
+            f"{self.base_url}/api/ai-adjudicate",
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "debate": debate,
+                "industry": industry
+            }
+        )
+        return response.json()
+
+# Usage
+client = SIFClient("sk_prod_your_key")
+result = client.adjudicate({
+    "for": "Saving lives is ethically mandatory",
+    "against": "Autonomy violations are unacceptable"
+})</code></pre>
+
+                    <h3>cURL</h3>
+                    <pre><code class="language-bash">curl -X POST http://localhost:3000/api/ai-adjudicate \
+  -H "Authorization: Bearer sk_prod_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "debate": {
+      "for": "Pro argument here",
+      "against": "Con argument here"
+    },
+    "industry": "healthcare"
+  }'</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Error Handling</h2>
+                    <pre><code class="language-javascript">async function safeAdjudicate(debate) {
+  try {
+    const response = await fetch('/api/ai-adjudicate', {
+      method: 'POST',
+      headers: { /* ... */ },
+      body: JSON.stringify(debate)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      // Handle API-level errors
+      console.error('Adjudication failed:', result.error);
+      return getFallbackRuling(debate);
+    }
+
+    return result;
+
+  } catch (error) {
+    // Handle network errors
+    console.error('Network error:', error);
+    return getFallbackRuling(debate);
+  }
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Best Practices</h2>
+                    <ol>
+                        <li><strong>Always check compliance scores</strong> before taking action</li>
+                        <li><strong>Implement fallback mechanisms</strong> for API failures</li>
+                        <li><strong>Cache frequent queries</strong> to reduce API calls</li>
+                        <li><strong>Monitor compliance alerts</strong> for regulatory changes</li>
+                        <li><strong>Use webhooks</strong> for real-time updates</li>
+                    </ol>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="quick-start.html" class="nav-button prev">Quick Start</a>
+                    <a href="api-reference.html" class="nav-button next">API Reference</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

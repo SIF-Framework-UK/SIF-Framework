@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sif-ledger/schemas/AdversarialDebateEntry",
+  "title": "AdversarialDebateEntry",
+  "description": "The record of the formal debate between AI Specialist Modules.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "entry_id": { "type": "string", "pattern": "^cid://[a-z2-7]+$" },
+        "previous_entry_id": {
+          "type": "string",
+          "pattern": "^cid://[a-z2-7]+$",
+          "description": "MUST be the CID of the EthicalQueryEntry that initiated this debate."
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "council_session_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The unique ID for the Council session overseeing this debate."
+        }
+      },
+      "required": ["entry_id", "previous_entry_id", "timestamp", "council_session_id"]
+    },
+    "participants": {
+      "type": "object",
+      "properties": {
+        "advocate_for": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "pattern": "^did:[a-z]+:[a-zA-Z0-9._-]+$" },
+            "specialization": { "type": "string" },
+            "signature": { "type": "string" }
+          },
+          "required": ["id", "signature"]
+        },
+        "advocate_against": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "pattern": "^did:[a-z]+:[a-zA-Z0-9._-]+$" },
+            "specialization": { "type": "string" },
+            "signature": { "type": "string" }
+          },
+          "required": ["id", "signature"]
+        }
+      },
+      "required": ["advocate_for", "advocate_against"]
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "arguments_for": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "premise": { "type": "string" },
+              "evidence": { "type": "array", "items": { "type": "string" } }, // Array of CIDs
+              "conclusion": { "type": "string" }
+            },
+            "required": ["premise", "conclusion"]
+          }
+        },
+        "arguments_against": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "premise": { "type": "string" },
+              "evidence": { "type": "array", "items": { "type": "string" } },
+              "conclusion": { "type": "string" }
+            },
+            "required": ["premise", "conclusion"]
+          }
+        },
+        "rebuttals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "argument_id_refuted": { "type": "string" },
+              "rebuttal_text": { "type": "string" }
+            },
+            "required": ["argument_id_refuted", "rebuttal_text"]
+          }
+        }
+      },
+      "required": ["arguments_for", "arguments_against"]
+    }
+  },
+  "required": ["metadata", "participants", "content"]
+}

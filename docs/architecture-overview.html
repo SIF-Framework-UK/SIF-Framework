@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Overview - SIF Framework Acquisition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="docs-container">
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Acquisition Documentation</p>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Acquisition Package</h3>
+                    <ul class="nav-links">
+                        <li><a href="acquisition-overview.html"><span class="icon">📋</span> Overview</a></li>
+                        <li><a href="architecture-overview.html" class="active"><span class="icon">🏗️</span> Architecture</a></li>
+                        <li><a href="deployment-checklist.html"><span class="icon">✅</span> Deployment</a></li>
+                        <li><a href="ip-assignment.html"><span class="icon">⚖️</span> IP Assignment</a></li>
+                        <li><a href="software-license.html"><span class="icon">📄</span> License</a></li>
+                        <li><a href="support-transition.html"><span class="icon">🔄</span> Support</a></li>
+                        <li><a href="warranties-disclaimers.html"><span class="icon">🛡️</span> Warranties</a></li>
+                        <li><a href="acquisition-process.html"><span class="icon">⚡</span> Process</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="docs-main">
+            <div class="breadcrumbs">
+                <a href="acquisition-overview.html">Acquisition</a> <span>›</span> Architecture Overview
+            </div>
+
+            <div class="docs-header">
+                <h1>Technical Architecture Overview</h1>
+                <p>Clean, modular design with zero technical debt</p>
+            </div>
+
+            <div class="docs-content">
+                <div class="content-section">
+                    <h2>System Architecture</h2>
+                    <div class="architecture-diagram">
+                        <pre class="architecture-code"><code>┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   API Gateway    │    │  Adjudication   │
+│   Dashboard     │◄──►│   Express.js     │◄──►│    Engine       │
+│  (HTML/JS/CSS)  │    │   Middleware     │    │  (Core Logic)   │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐    ┌─────────────────┐
+                    │   Compliance     │    │   Audit Ledger  │
+                    │     Engine       │◄──►│   (Immutable)   │
+                    │  (GDPR/HIPAA)    │    │                 │
+                    └──────────────────┘    └─────────────────┘</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Why This Architecture Works</h2>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4>🚀 Stateless API</h4>
+                            <p>Easy horizontal scaling with no session dependencies</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🧩 Modular Design</h4>
+                            <p>Each component is independently replaceable</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🔒 No External Dependencies</h4>
+                            <p>Self-contained system with zero vendor lock-in</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>💾 Simple Data Storage</h4>
+                            <p>File-based or basic database - your choice</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Zero Technical Debt</h2>
+                    <div class="checklist">
+                        <div class="check-item">✅ No legacy code to maintain</div>
+                        <div class="check-item">✅ No complex database migrations needed</div>
+                        <div class="check-item">✅ No vendor lock-in or proprietary systems</div>
+                        <div class="check-item">✅ No undocumented features or hidden complexity</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>File Structure</h2>
+                    <pre><code class="language-text">sif-prototype/
+├── demo-server.js          # Main server (entry point)
+├── compliance-engine.js    # Regulatory compliance
+├── enhanced-adjudicator.js # Core AI logic
+├── ledger.js              # Immutable audit trail
+├── *.html                 # Frontend interfaces
+└── package.json           # Dependencies (minimal)</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Minimal Dependencies</h2>
+                    <pre><code class="language-json">{
+  "dependencies": {
+    "express": "^4.18.0",     # Web server only
+    "cors": "^2.8.5",         # CORS middleware
+    "path": "^0.12.7"         # File paths
+  }
+}</code></pre>
+                </div>
+
+                <div class="content-section">
+                    <h2>Deployment Flexibility</h2>
+                    <div class="deployment-options">
+                        <div class="option">
+                            <h4>Simple Development</h4>
+                            <code>node demo-server.js</code>
+                        </div>
+                        <div class="option">
+                            <h4>Docker Containers</h4>
+                            <code>docker-compose up -d</code>
+                        </div>
+                        <div class="option">
+                            <h4>Kubernetes</h4>
+                            <code>kubectl apply -f deployment.yaml</code>
+                        </div>
+                        <div class="option">
+                            <h4>Serverless</h4>
+                            <code>AWS Lambda / Azure Functions</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="docs-navigation">
+                    <a href="acquisition-overview.html" class="nav-button prev">Overview</a>
+                    <a href="deployment-checklist.html" class="nav-button next">Deployment Checklist</a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
