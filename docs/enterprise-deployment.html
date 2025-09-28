@@ -9,51 +9,8 @@
 </head>
 <body>
     <div class="docs-container">
-        <!-- Sidebar Navigation -->
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Enterprise AI Governance Documentation</p>
-            </div>
-
-            <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search documentation...">
-            </div>
-
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <h3>Getting Started</h3>
-                    <ul class="nav-links">
-                        <li><a href="index.html"><span class="icon">📖</span> Overview</a></li>
-                        <li><a href="quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Integration</h3>
-                    <ul class="nav-links">
-                        <li><a href="integration-guide.html"><span class="icon">🔌</span> Integration Guide</a></li>
-                        <li><a href="api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Enterprise</h3>
-                    <ul class="nav-links">
-                        <li><a href="enterprise-deployment.html" class="active"><span class="icon">🏢</span> Deployment Guide</a></li>
-                        <li><a href="compliance-guide.html"><span class="icon">⚖️</span> Compliance Guide</a></li>
-                        <li><a href="use-cases.html"><span class="icon">🎯</span> Use Cases</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Support</h3>
-                    <ul class="nav-links">
-                        <li><a href="faq.html"><span class="icon">❓</span> FAQ</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <!-- Global Navigation -->
+        <div id="global-navigation"></div>
 
         <!-- Main Content -->
         <main class="docs-main">
@@ -248,6 +205,7 @@ RATE_LIMIT_WINDOW=3600000  # 1 hour</code></pre>
         </main>
     </div>
 
+    <script src="../shared-nav.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

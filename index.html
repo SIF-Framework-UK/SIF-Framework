@@ -8,59 +8,8 @@
 </head>
 <body>
     <div class="docs-container">
-        <!-- Sidebar -->
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Ethical AI Adjudication System</p>
-            </div>
-
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <h3>Main</h3>
-                    <ul class="nav-links">
-                        <li><a href="#overview" class="active">Overview</a></li>
-                        <li><a href="#acquisition-opportunity" style="color: #dc2626; font-weight: bold;">🚀 Acquisition Opportunity</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#acquisition">Implementation</a></li>
-                        <li><a href="#demo">Live Demo</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Framework Docs</h3>
-                    <ul class="nav-links">
-                        <li><a href="docs/index.html">Overview</a></li>
-                        <li><a href="docs/architecture-overview.html">Architecture</a></li>
-                        <li><a href="docs/api-reference.html">API Reference</a></li>
-                        <li><a href="docs/quick-start.html">Quick Start</a></li>
-                        <li><a href="docs/use-cases.html">Use Cases</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Acquisition & Implementation</h3>
-                    <ul class="nav-links">
-                        <li><a href="acquisition.html">Executive Summary</a></li>
-                        <li><a href="docs/acquisition-overview.html">Acquisition Guide</a></li>
-                        <li><a href="docs/compliance-guide.html">Compliance Guide</a></li>
-                        <li><a href="docs/enterprise-deployment.html">Enterprise Deployment</a></li>
-                        <li><a href="docs/deployment-checklist.html">Deployment Checklist</a></li>
-                        <li><a href="docs/support-transition.html">Support & Transition</a></li>
-                        <li><a href="docs/software-license.html">Software License</a></li>
-                        <li><a href="docs/warranties-disclaimers.html">Warranties</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Demo</h3>
-                    <ul class="nav-links">
-                        <li><a href="demo/demo-frontend/index.html">Try Demo</a></li>
-                        <li><a href="demo/README.md">Demo Guide</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <!-- Global Navigation -->
+        <div id="global-navigation"></div>
 
         <!-- Main Content -->
         <main class="docs-main">
@@ -289,52 +238,7 @@
         </main>
     </div>
 
+    <script src="shared-nav.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Smooth scrolling for anchor links
-        document.addEventListener('DOMContentLoaded', function() {
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-
-                        // Update active navigation link
-                        document.querySelectorAll('.nav-links a').forEach(link => {
-                            link.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                    }
-                });
-            });
-
-            // Update active nav link on scroll
-            window.addEventListener('scroll', function() {
-                const sections = document.querySelectorAll('.content-section');
-                const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
-                let currentSection = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 100;
-                    if (window.scrollY >= sectionTop) {
-                        currentSection = '#' + section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === currentSection) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>

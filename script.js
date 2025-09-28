@@ -1,124 +1,68 @@
-// Enhanced navigation functionality for SIF Framework
+// Global functionality for SIF Framework
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for anchor links
-    const smoothScroll = function(anchor) {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
+    // Mobile menu toggle for global navigation
+    const mobileMenuToggle = document.createElement('button');
+    mobileMenuToggle.innerHTML = '☰ Menu';
+    mobileMenuToggle.className = 'mobile-menu-toggle';
+    mobileMenuToggle.style.cssText = `
+        display: none;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1000;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+    `;
 
-            if (targetId.startsWith('#')) {
-                const target = document.querySelector(targetId);
-                if (target) {
-                    // Calculate offset for fixed header
-                    const headerOffset = 100;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    document.body.appendChild(mobileMenuToggle);
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Update URL without page jump
-                    history.pushState(null, null, targetId);
-
-                    // Update active navigation link
-                    updateActiveNavLink(targetId);
-                }
-            } else {
-                // External link, allow normal behavior
-                window.location.href = targetId;
-            }
-        });
-    };
-
-    // Update active navigation link
-    const updateActiveNavLink = function(targetId) {
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === targetId) {
-                link.classList.add('active');
-            }
-        });
-    };
-
-    // Initialize smooth scrolling for all anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(smoothScroll);
-
-    // Update active nav link on scroll
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('.content-section');
-        const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
-        let currentSection = '';
-        const scrollPosition = window.scrollY + 150; // Offset for better detection
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                currentSection = '#' + section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Add loading states for demo links
-    document.querySelectorAll('a[href*="demo"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.getAttribute('href').includes('demo-frontend')) {
-                // Add loading indicator for demo
-                this.innerHTML = 'Loading Demo...';
-                setTimeout(() => {
-                    this.innerHTML = 'Launch Demo';
-                }, 2000);
-            }
-        });
-    });
-
-    // Enhanced mobile menu functionality
-    const setupMobileMenu = function() {
+    // Toggle mobile menu
+    mobileMenuToggle.addEventListener('click', function() {
         const sidebar = document.querySelector('.docs-sidebar');
-        if (window.innerWidth < 968 && sidebar) {
-            // Create mobile menu toggle
-            const mobileToggle = document.createElement('button');
-            mobileToggle.innerHTML = '☰ Menu';
-            mobileToggle.style.cssText = `
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                z-index: 1000;
-                background: var(--primary);
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 5px;
-                cursor: pointer;
-            `;
-
-            document.body.appendChild(mobileToggle);
-
-            let sidebarVisible = false;
-            mobileToggle.addEventListener('click', function() {
-                sidebarVisible = !sidebarVisible;
-                sidebar.style.transform = sidebarVisible ? 'translateX(0)' : 'translateX(-100%)';
-                sidebar.style.transition = 'transform 0.3s ease';
-            });
+        if (window.innerWidth < 968) {
+            const isVisible = sidebar.style.display !== 'none';
+            sidebar.style.display = isVisible ? 'none' : 'block';
         }
-    };
+    });
 
-    // Initialize mobile menu
-    setupMobileMenu();
-    window.addEventListener('resize', setupMobileMenu);
+    // Responsive behavior
+    function handleResize() {
+        const sidebar = document.querySelector('.docs-sidebar');
+        if (window.innerWidth < 968) {
+            mobileMenuToggle.style.display = 'block';
+            sidebar.style.display = 'none';
+        } else {
+            mobileMenuToggle.style.display = 'none';
+            sidebar.style.display = 'block';
+        }
+    }
 
-    // Add fade-in animation for content sections
+    // Initial setup
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // External link handling
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        if (!link.href.includes(window.location.hostname)) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
+
+    // Your existing functionality for main site
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        // Main site specific functionality
+        initializeMainSiteFeatures();
+    }
+});
+
+function initializeMainSiteFeatures() {
+    // Fade-in animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -133,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe all content sections for fade-in
     document.querySelectorAll('.content-section').forEach(section => {
         section.style.opacity = '0';
         section.style.transform = 'translateY(20px)';
@@ -141,28 +84,16 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    // Add click tracking for analytics (placeholder)
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            console.log('Link clicked:', this.href);
-            // Add your analytics tracking here
+    // Demo loading states
+    document.querySelectorAll('a[href*="demo"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href').includes('demo-frontend')) {
+                const originalText = this.innerHTML;
+                this.innerHTML = 'Loading Demo...';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            }
         });
     });
-});
-
-// Utility function for external link handling
-function handleExternalLinks() {
-    document.querySelectorAll('a[href^="http"]').forEach(link => {
-        if (!link.href.includes(window.location.hostname)) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-        }
-    });
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', handleExternalLinks);
-} else {
-    handleExternalLinks();
 }

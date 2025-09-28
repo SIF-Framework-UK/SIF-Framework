@@ -110,6 +110,29 @@ body {
     font-size: 1.1rem;
 }
 
+/* Global navigation enhancements */
+.nav-section:last-child {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.nav-section:last-child h3 {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+/* Ensure cross-site navigation stands out */
+.nav-section:last-child .nav-links a {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+}
+
+.nav-section:last-child .nav-links a:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
 /* Main Content */
 .docs-main {
     flex: 1;
@@ -147,6 +170,7 @@ body {
 /* Content Styling */
 .content-section {
     margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
 }
 
 .content-section h2 {
@@ -325,6 +349,10 @@ tr:hover {
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
     }
+
+    .nav-section:last-child {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (max-width: 768px) {
@@ -356,6 +384,8 @@ tr:hover {
 /* Search Bar */
 .search-container {
     padding: 0 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
 }
 
 .search-box {
@@ -364,6 +394,7 @@ tr:hover {
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 0.9rem;
+    transition: all 0.3s ease;
 }
 
 .search-box:focus {
@@ -568,537 +599,4 @@ tr:hover {
     padding: 1.5rem;
     border-radius: 8px;
     border-left: 4px solid var(--success);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .feature-grid,
-    .value-props,
-    .deployment-options {
-        grid-template-columns: 1fr;
-    }
-
-    .architecture-diagram {
-        padding: 1rem;
-        font-size: 0.8rem;
-    }
-
-    /* Checklist styles */
-    .checklist-section {
-        background: var(--bg-light);
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-    }
-
-    .checklist-item {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .checklist-item:last-child {
-        border-bottom: none;
-    }
-
-    .checklist-item input[type="checkbox"] {
-        margin-right: 1rem;
-        transform: scale(1.2);
-    }
-
-    .checklist-item label {
-        flex: 1;
-        font-weight: 500;
-    }
-
-    .checklist-item code {
-        background: var(--primary-light);
-        color: var(--primary);
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        margin-left: 1rem;
-    }
-
-    /* Verification styles */
-    .verification-steps {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
-
-    .verification-item {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .success-banner {
-        background: linear-gradient(135deg, var(--success), #059669);
-        color: white;
-        padding: 2rem;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    /* Asset categories */
-    .asset-category {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-    }
-
-    .asset-category h3 {
-        margin-top: 0;
-        color: var(--primary);
-    }
-
-    /* Terms grid */
-    .terms-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .term-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .term-card h4 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-
-    /* Transition options */
-    .transition-options {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .transition-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .transition-card h4 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-
-    /* Verification checklist */
-    .verification-checklist {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .verification-item {
-        display: flex;
-        align-items: center;
-        background: var(--bg-light);
-        padding: 1rem;
-        border-radius: 8px;
-    }
-
-    .check-icon {
-        font-size: 1.5rem;
-        margin-right: 1rem;
-    }
-
-    /* License grants */
-    .license-grants {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .grant-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .grant-card h4 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-
-    /* Restrictions grid */
-    .restrictions-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .restriction-item {
-        display: flex;
-        align-items: center;
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .restriction-item .icon {
-        font-size: 2rem;
-        margin-right: 1rem;
-    }
-
-    /* Source code features */
-    .source-code-details {
-        display: grid;
-        gap: 1rem;
-        margin: 1.5rem 0;
-    }
-
-    .code-feature {
-        background: var(--bg-light);
-        padding: 1rem;
-        border-radius: 8px;
-    }
-
-    .code-feature h4 {
-        margin: 0;
-        color: var(--primary);
-    }
-
-    /* Warranty section */
-    .warranty-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .warranty-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .warranty-card h4 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-    /* Support transition styles */
-    .status-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-
-    .status-item {
-        display: flex;
-        align-items: center;
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .status-icon {
-        font-size: 2rem;
-        margin-right: 1rem;
-    }
-
-    .knowledge-package {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .knowledge-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .knowledge-card h4 {
-        color: var(--primary);
-        margin-top: 0;
-    }
-
-    .timeline-visual {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        gap: 1rem;
-        align-items: center;
-        margin: 2rem 0;
-    }
-
-    .timeline-stage {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .stage-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .stage-number {
-        background: var(--primary);
-        color: white;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 1rem;
-        font-weight: bold;
-    }
-
-    .reasons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-
-    .reason-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .resources-list {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .resource-item {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    /* Warranties styles */
-    .warranties-provided {
-        display: grid;
-        gap: 1.5rem;
-    }
-
-    .warranty-category {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .warranty-category h3 {
-        color: var(--success);
-        margin-top: 0;
-    }
-
-    .disclaimers-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .disclaimer-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .disclaimer-card h4 {
-        color: var(--error);
-        margin-top: 0;
-    }
-
-    .risk-allocation {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-    }
-
-    .risk-party {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .liability-limits {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
-
-    .liability-item {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .functionality-proof {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-
-    .proof-item {
-        display: flex;
-        align-items: center;
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .proof-icon {
-        font-size: 2rem;
-        margin-right: 1rem;
-    }
-
-    .agreement-points {
-        display: grid;
-        gap: 1rem;
-        margin: 1rem 0;
-    }
-
-    .agreement-point {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    /* Process styles */
-    .comparison-table table {
-        background: var(--bg-white);
-    }
-
-    .comparison-table td:first-child {
-        color: var(--text-secondary);
-    }
-
-    .comparison-table td:last-child {
-        font-weight: bold;
-        color: var(--success);
-    }
-
-    .process-steps {
-        display: grid;
-        gap: 2rem;
-    }
-
-    .process-step {
-        background: var(--bg-light);
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .step-header {
-        background: var(--primary);
-        color: white;
-        padding: 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .step-number {
-        background: white;
-        color: var(--primary);
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    .step-duration {
-        background: rgba(255,255,255,0.2);
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-    }
-
-    .step-details {
-        padding: 1.5rem;
-    }
-
-    .step-details h4 {
-        margin-top: 1rem;
-        color: var(--primary);
-    }
-
-    .step-details h4:first-child {
-        margin-top: 0;
-    }
-
-    .timeline-summary {
-        text-align: center;
-    }
-
-    .timeline-visual {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-        margin: 2rem 0;
-    }
-
-    .timeline-phase {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-        min-width: 200px;
-    }
-
-    .phase-duration {
-        font-weight: bold;
-        color: var(--primary);
-    }
-
-    .phase-title {
-        font-size: 1.2rem;
-        margin: 0.5rem 0;
-    }
-
-    .timeline-arrow {
-        font-size: 2rem;
-        color: var(--primary);
-    }
-
-    .completion-statement {
-        background: linear-gradient(135deg, var(--success), #059669);
-        color: white;
-        padding: 2rem;
-        border-radius: 8px;
-        margin: 2rem 0;
-    }
-
-    .getting-started {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .start-step {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-    }
-
-    .buyer-benefits {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
-
-    .benefit-card {
-        background: var(--bg-light);
-        padding: 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-    }
-
 }
