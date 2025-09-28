@@ -1,168 +1,424 @@
-// Enhanced navigation functionality for SIF Framework
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for anchor links
-    const smoothScroll = function(anchor) {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acquisition Opportunity - SIF Framework</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .comparison-table th {
+            background: var(--primary-light);
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .comparison-table td {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        .value-highlight {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #065f46;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+        .acquisition-feature {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+        .acquisition-feature .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="docs-container">
+        <nav class="docs-sidebar">
+            <div class="sidebar-header">
+                <h1>SIF Framework</h1>
+                <p>Acquisition Opportunity</p>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>Navigation</h3>
+                    <ul class="nav-links">
+                        <li><a href="index.html">← Back to Main Site</a></li>
+                        <li><a href="#overview" class="active">Overview</a></li>
+                        <li><a href="#problem">The Problem</a></li>
+                        <li><a href="#solution">Our Solution</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#acquisition">Acquisition Value</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>Related Documents</h3>
+                    <ul class="nav-links">
+                        <li><a href="docs/acquisition-overview.html">Acquisition Guide</a></li>
+                        <li><a href="docs/enterprise-deployment.html">Enterprise Deployment</a></li>
+                        <li><a href="docs/software-license.html">Software License</a></li>
+                        <li><a href="docs/compliance-guide.html">Compliance Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-            if (targetId.startsWith('#')) {
-                const target = document.querySelector(targetId);
-                if (target) {
-                    // Calculate offset for fixed header
-                    const headerOffset = 100;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        <main class="docs-main">
+            <div class="docs-content">
+                <div class="docs-header">
+                    <h1>Executive Summary</h1>
+                    <p>Constitutional AI Governance Platform • Available for Acquisition</p>
+                </div>
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    <p>The SIF Framework is a breakthrough implementation of constitutional AI governance, demonstrating that ethical AI oversight can be rapidly prototyped and deployed. Our technology validates the feasibility of automated ethical decision-making through a unique adversarial debate architecture.</p>
 
-                    // Update URL without page jump
-                    history.pushState(null, null, targetId);
+                    <div class="alert alert-info">
+                        <strong>Technology Status:</strong> Working prototype • <strong>Development:</strong> Rapid validation build • <strong>Origin:</strong> UK-developed
+                    </div>
 
-                    // Update active navigation link
-                    updateActiveNavLink(targetId);
-                }
-            } else {
-                // External link, allow normal behavior
-                window.location.href = targetId;
-            }
-        });
-    };
+                    <div class="acquisition-feature">
+                        <div class="icon">🚀</div>
+                        <div>
+                            <h4>Rapid Proof-of-Concept</h4>
+                            <p>Built a functional constitutional AI system in hours, not months, demonstrating technical feasibility and scalable design.</p>
+                        </div>
+                    </div>
+                </section>
 
-    // Update active navigation link
-    const updateActiveNavLink = function(targetId) {
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === targetId) {
-                link.classList.add('active');
-            }
-        });
-    };
+                <section id="problem" class="content-section">
+                    <h2>The Problem We Solve</h2>
 
-    // Initialize smooth scrolling for all anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(smoothScroll);
+                    <h3>AI Governance Crisis</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4>Regulatory Pressure</h4>
+                            <p>EU AI Act mandates ethical AI oversight by 2025</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Enterprise Risk</h4>
+                            <p>Majority of companies lack AI governance frameworks</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Public Trust</h4>
+                            <p>Growing consumer skepticism toward AI decisions</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Legal Liability</h4>
+                            <p>Increasing accountability requirements for AI systems</p>
+                        </div>
+                    </div>
 
-    // Update active nav link on scroll
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('.content-section');
-        const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+                    <h3>Market Gap</h3>
+                    <ul>
+                        <li>Theoretical frameworks without practical implementations</li>
+                        <li>No working examples of constitutional AI in production</li>
+                        <li>Manual compliance processes that don't scale with AI deployment</li>
+                    </ul>
+                </section>
 
-        let currentSection = '';
-        const scrollPosition = window.scrollY + 150; // Offset for better detection
+                <section id="solution" class="content-section">
+                    <h2>Our Breakthrough</h2>
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
+                    <h3>Rapid Proof-of-Concept</h3>
+                    <p><strong>Key Achievement:</strong> Built a functional constitutional AI system in hours, not months, demonstrating:</p>
 
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                currentSection = '#' + section.getAttribute('id');
-            }
-        });
+                    <div class="value-props">
+                        <div class="value-card">
+                            <h4>Concept Validation</h4>
+                            <p>The core architecture works in practice</p>
+                        </div>
+                        <div class="value-card">
+                            <h4>Technical Feasibility</h4>
+                            <p>Ethical AI governance is implementable now</p>
+                        </div>
+                        <div class="value-card">
+                            <h4>Scalable Design</h4>
+                            <p>Architecture supports enterprise deployment</p>
+                        </div>
+                    </div>
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-                link.classList.add('active');
-            }
-        });
-    });
+                    <h3>What Makes This Remarkable</h3>
 
-    // Add loading states for demo links
-    document.querySelectorAll('a[href*="demo"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.getAttribute('href').includes('demo-frontend')) {
-                // Add loading indicator for demo
-                this.innerHTML = 'Loading Demo...';
-                setTimeout(() => {
-                    this.innerHTML = 'Launch Demo';
-                }, 2000);
-            }
-        });
-    });
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Traditional Development</th>
+                                <th>SIF Framework Approach</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Months of research</td>
+                                <td><span class="value-highlight">Hours to working prototype</span></td>
+                            </tr>
+                            <tr>
+                                <td>Theoretical papers</td>
+                                <td><span class="value-highlight">Demonstrable technology</span></td>
+                            </tr>
+                            <tr>
+                                <td>Speculative value</td>
+                                <td><span class="value-highlight">Proven implementation</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
-    // Enhanced mobile menu functionality
-    const setupMobileMenu = function() {
-        const sidebar = document.querySelector('.docs-sidebar');
-        if (window.innerWidth < 968 && sidebar) {
-            // Create mobile menu toggle
-            const mobileToggle = document.createElement('button');
-            mobileToggle.innerHTML = '☰ Menu';
-            mobileToggle.style.cssText = `
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                z-index: 1000;
-                background: var(--primary);
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 5px;
-                cursor: pointer;
-            `;
+                <section id="technology" class="content-section">
+                    <h2>Technology Demonstration</h2>
 
-            document.body.appendChild(mobileToggle);
+                    <h3>Prototype Capabilities</h3>
+                    <div class="checklist">
+                        <div class="check-item">✅ Real ethical reasoning between AI perspectives</div>
+                        <div class="check-item">✅ Weighted principle adjudication</div>
+                        <div class="check-item">✅ Immutable decision logging</div>
+                        <div class="check-item">✅ API-ready architecture</div>
+                        <div class="check-item">✅ Enterprise integration design</div>
+                    </div>
 
-            let sidebarVisible = false;
-            mobileToggle.addEventListener('click', function() {
-                sidebarVisible = !sidebarVisible;
-                sidebar.style.transform = sidebarVisible ? 'translateX(0)' : 'translateX(-100%)';
-                sidebar.style.transition = 'transform 0.3s ease';
+                    <h3>Architecture Strength</h3>
+                    <div class="tech-stack">
+                        <div class="tech-category">
+                            <h4>Design</h4>
+                            <div class="tech-tag">Modular Design</div>
+                            <div class="tech-tag">Clean Architecture</div>
+                            <div class="tech-tag">Production Foundation</div>
+                        </div>
+                        <div class="tech-category">
+                            <h4>Integration</h4>
+                            <div class="tech-tag">RESTful APIs</div>
+                            <div class="tech-tag">Standard Interfaces</div>
+                            <div class="tech-tag">Easy Scaling</div>
+                        </div>
+                        <div class="tech-category">
+                            <h4>Compliance</h4>
+                            <div class="tech-tag">UK Compliance</div>
+                            <div class="tech-tag">GDPR-ready</div>
+                            <div class="tech-tag">Audit Trail</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>Technology Status:</strong> Working prototype validating core concept with enterprise-ready architecture and API framework.
+                    </div>
+                </section>
+
+                <section id="acquisition" class="content-section">
+                    <h2>Acquisition Value</h2>
+
+                    <h3>Strategic Benefits</h3>
+                    <div class="value-props">
+                        <div class="value-card">
+                            <h4>Market First</h4>
+                            <p>Only working constitutional AI implementation</p>
+                        </div>
+                        <div class="value-card">
+                            <h4>Regulatory Solution</h4>
+                            <p>Ready foundation for compliance products</p>
+                        </div>
+                        <div class="value-card">
+                            <h4>Technical Blueprint</h4>
+                            <p>Proven architecture that works</p>
+                        </div>
+                        <div class="value-card">
+                            <h4>Time Advantage</h4>
+                            <p>Saves 6-12 months of R&D effort</p>
+                        </div>
+                    </div>
+
+                    <h3>Clean Acquisition Terms</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4>Complete IP Transfer</h4>
+                            <p>All code, architecture, and documentation</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>No Team Commitment</h4>
+                            <p>Pure technology acquisition</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Immediate Handover</h4>
+                            <p>No transition period required</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>Cash Consideration</h4>
+                            <p>Simple deal structure</p>
+                        </div>
+                    </div>
+
+                    <h3>Ideal Acquirer Profile</h3>
+                    <div class="deployment-options">
+                        <div class="option">
+                            <h4>AI Companies</h4>
+                            <p>Needing governance differentiation</p>
+                        </div>
+                        <div class="option">
+                            <h4>Enterprise Software</h4>
+                            <p>Companies adding AI ethics features</p>
+                        </div>
+                        <div class="option">
+                            <h4>Consulting Firms</h4>
+                            <p>Building governance practices</p>
+                        </div>
+                        <div class="option">
+                            <h4>Government Contractors</h4>
+                            <p>Addressing public sector AI oversight</p>
+                        </div>
+                    </div>
+
+                    <h3>Why This Timing is Perfect</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">📅</div>
+                            <div class="timeline-content">
+                                <h4>Regulatory Window</h4>
+                                <p>AI Act compliance requirements create immediate need</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">⚡</div>
+                            <div class="timeline-content">
+                                <h4>Technology Gap</h4>
+                                <p>No other working constitutional AI implementations exist</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">🏢</div>
+                            <div class="timeline-content">
+                                <h4>Enterprise Demand</h4>
+                                <p>Companies need governance solutions now, not in 2 years</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact" class="content-section">
+                    <h2>Next Steps</h2>
+
+                    <h3>Immediate Engagement</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-header">
+                                <div class="step-number">1</div>
+                                <h4>Technical Demonstration</h4>
+                                <div class="step-duration">Live walkthrough</div>
+                            </div>
+                            <div class="step-details">
+                                <p>Live prototype demonstration and architecture review</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-header">
+                                <div class="step-number">2</div>
+                                <h4>Architecture Review</h4>
+                                <div class="step-duration">Code analysis</div>
+                            </div>
+                            <div class="step-details">
+                                <p>Comprehensive code and design documentation review</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-header">
+                                <div class="step-number">3</div>
+                                <h4>Integration Assessment</h4>
+                                <div class="step-duration">Compatibility analysis</div>
+                            </div>
+                            <div class="step-details">
+                                <p>Technical compatibility and integration pathway analysis</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-header">
+                                <div class="step-number">4</div>
+                                <h4>Term Sheet Discussion</h4>
+                                <div class="step-duration">Agreement negotiation</div>
+                            </div>
+                            <div class="step-details">
+                                <p>Clean IP transfer agreement and terms discussion</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h4>Contact Information</h4>
+                        <p><strong>Alan Robinson</strong><br>
+                        Technology Creator<br>
+                        <a href="mailto:alan.robinson1983@gmail.com">alan.robinson1983@gmail.com</a><br>
+                        <a href="https://sif-framework-uk.github.io/SIF-Framework/">Project Website</a></p>
+                    </div>
+
+                    <p><em>Confidential details available under NDA</em></p>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
             });
-        }
-    };
 
-    // Initialize mobile menu
-    setupMobileMenu();
-    window.addEventListener('resize', setupMobileMenu);
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.content-section');
+                const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
-    // Add fade-in animation for content sections
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        currentSection = '#' + section.getAttribute('id');
+                    }
+                });
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
-    }, observerOptions);
-
-    // Observe all content sections for fade-in
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(section);
-    });
-
-    // Add click tracking for analytics (placeholder)
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            console.log('Link clicked:', this.href);
-            // Add your analytics tracking here
-        });
-    });
-});
-
-// Utility function for external link handling
-function handleExternalLinks() {
-    document.querySelectorAll('a[href^="http"]').forEach(link => {
-        if (!link.href.includes(window.location.hostname)) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-        }
-    });
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', handleExternalLinks);
-} else {
-    handleExternalLinks();
-}
+    </script>
+</body>
+</html>
