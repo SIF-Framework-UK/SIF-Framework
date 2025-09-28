@@ -3,93 +3,121 @@
 
 function loadGlobalNavigation() {
     const navContainer = document.getElementById('global-navigation');
-    if (!navContainer) return;
-
-    // Detect if we're in acquisition docs or technical docs
-    const isAcquisitionPage = window.location.pathname.includes('acquisition-') ||
-                             document.title.includes('Acquisition');
-
-    const currentPath = window.location.pathname;
-    const isInDocsFolder = currentPath.includes('/docs/');
-
-    // Base path for links - adjust based on current location
-    let basePath = '';
-    if (isInDocsFolder) {
-        basePath = './'; // Relative to current docs folder
-    } else {
-        basePath = 'docs/'; // Relative to root
+    if (!navContainer) {
+        console.error('Global navigation container not found');
+        return;
     }
 
-    const navigationHTML = `
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>${isAcquisitionPage ? 'Acquisition Documentation' : 'Enterprise AI Governance Documentation'}</p>
-            </div>
+    try {
+        // Detect context
+        const currentPath = window.location.pathname;
+        const isAcquisitionPage = currentPath.includes('acquisition-') ||
+                                 document.title.includes('Acquisition') ||
+                                 currentPath.includes('acquisition');
 
-            ${!isAcquisitionPage ? `
-            <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search documentation...">
-            </div>
-            ` : ''}
+        const isInDocsFolder = currentPath.includes('/docs/') || currentPath.endsWith('/docs') || currentPath.includes('docs/');
 
-            <div class="sidebar-nav">
-                ${isAcquisitionPage ? generateAcquisitionNav(basePath) : generateTechnicalDocsNav(basePath)}
-            </div>
-        </nav>
-    `;
+        // Calculate base paths
+        let basePath = '';
+        if (window.location.hostname === 'sif-framework-uk.github.io') {
+            // Production environment
+            if (isInDocsFolder) {
+                basePath = '/SIF-Framework/docs/';
+            } else {
+                basePath = '/SIF-Framework/';
+            }
+        } else {
+            // Local development
+            if (isInDocsFolder) {
+                basePath = '../';
+            } else {
+                basePath = './';
+            }
+        }
 
-    navContainer.innerHTML = navigationHTML;
-    attachNavigationEvents();
+        console.log('Navigation context:', { isAcquisitionPage, isInDocsFolder, basePath, currentPath });
+
+        const navigationHTML = `
+            <nav class="docs-sidebar">
+                <div class="sidebar-header">
+                    <h1>SIF Framework</h1>
+                    <p>${isAcquisitionPage ? 'Acquisition Documentation' : 'Enterprise AI Governance Documentation'}</p>
+                </div>
+
+                ${!isAcquisitionPage ? `
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search documentation...">
+                </div>
+                ` : ''}
+
+                <div class="sidebar-nav">
+                    ${isAcquisitionPage ? generateAcquisitionNav(basePath) : generateTechnicalDocsNav(basePath)}
+                </div>
+            </nav>
+        `;
+
+        navContainer.innerHTML = navigationHTML;
+        attachNavigationEvents();
+
+    } catch (error) {
+        console.error('Error loading navigation:', error);
+        navContainer.innerHTML = `
+            <div style="padding: 20px; background: #f8f9fa; border-left: 4px solid #dc3545;">
+                <h3>Navigation Error</h3>
+                <p>Unable to load navigation. Please check the console for errors.</p>
+                <p><a href="/SIF-Framework/">Go to Home</a></p>
+            </div>
+        `;
+    }
 }
 
 function generateTechnicalDocsNav(basePath) {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = getCurrentPage();
 
     return `
         <div class="nav-section">
             <h3>Getting Started</h3>
             <ul class="nav-links">
                 <li><a href="${basePath}index.html" class="${currentPage === 'index.html' ? 'active' : ''}"><span class="icon">📖</span> Overview</a></li>
-                <li><a href="${basePath}quick-start.html" class="${currentPage === 'quick-start.html' ? 'active' : ''}"><span class="icon">🚀</span> Quick Start</a></li>
+                <li><a href="${basePath}docs/quick-start.html" class="${currentPage === 'quick-start.html' ? 'active' : ''}"><span class="icon">🚀</span> Quick Start</a></li>
             </ul>
         </div>
 
         <div class="nav-section">
             <h3>Integration</h3>
             <ul class="nav-links">
-                <li><a href="${basePath}integration-guide.html" class="${currentPage === 'integration-guide.html' ? 'active' : ''}"><span class="icon">🔌</span> Integration Guide</a></li>
-                <li><a href="${basePath}api-reference.html" class="${currentPage === 'api-reference.html' ? 'active' : ''}"><span class="icon">🔧</span> API Reference</a></li>
+                <li><a href="${basePath}docs/integration-guide.html" class="${currentPage === 'integration-guide.html' ? 'active' : ''}"><span class="icon">🔌</span> Integration Guide</a></li>
+                <li><a href="${basePath}docs/api-reference.html" class="${currentPage === 'api-reference.html' ? 'active' : ''}"><span class="icon">🔧</span> API Reference</a></li>
             </ul>
         </div>
 
         <div class="nav-section">
             <h3>Enterprise</h3>
             <ul class="nav-links">
-                <li><a href="${basePath}enterprise-deployment.html" class="${currentPage === 'enterprise-deployment.html' ? 'active' : ''}"><span class="icon">🏢</span> Deployment Guide</a></li>
-                <li><a href="${basePath}compliance-guide.html" class="${currentPage === 'compliance-guide.html' ? 'active' : ''}"><span class="icon">⚖️</span> Compliance Guide</a></li>
-                <li><a href="${basePath}use-cases.html" class="${currentPage === 'use-cases.html' ? 'active' : ''}"><span class="icon">🎯</span> Use Cases</a></li>
+                <li><a href="${basePath}docs/enterprise-deployment.html" class="${currentPage === 'enterprise-deployment.html' ? 'active' : ''}"><span class="icon">🏢</span> Deployment Guide</a></li>
+                <li><a href="${basePath}docs/compliance-guide.html" class="${currentPage === 'compliance-guide.html' ? 'active' : ''}"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                <li><a href="${basePath}docs/use-cases.html" class="${currentPage === 'use-cases.html' ? 'active' : ''}"><span class="icon">🎯</span> Use Cases</a></li>
             </ul>
         </div>
 
         <div class="nav-section">
             <h3>Support</h3>
             <ul class="nav-links">
-                <li><a href="${basePath}faq.html" class="${currentPage === 'faq.html' ? 'active' : ''}"><span class="icon">❓</span> FAQ</a></li>
+                <li><a href="${basePath}docs/faq.html" class="${currentPage === 'faq.html' ? 'active' : ''}"><span class="icon">❓</span> FAQ</a></li>
             </ul>
         </div>
 
         <div class="nav-section">
             <h3>Acquisition</h3>
             <ul class="nav-links">
-                <li><a href="${basePath}acquisition-overview.html"><span class="icon">💼</span> Acquisition Package</a></li>
+                <li><a href="${basePath}docs/acquisition-overview.html"><span class="icon">💼</span> Acquisition Package</a></li>
             </ul>
         </div>
     `;
 }
 
 function generateAcquisitionNav(basePath) {
-    const currentPage = window.location.pathname.split('/').pop() || 'acquisition-overview.html';
+    const currentPage = getCurrentPage();
 
     return `
         <div class="nav-section">
@@ -115,6 +143,11 @@ function generateAcquisitionNav(basePath) {
     `;
 }
 
+function getCurrentPage() {
+    const path = window.location.pathname;
+    return path.split('/').pop() || 'index.html';
+}
+
 function attachNavigationEvents() {
     // Search functionality
     const searchBox = document.querySelector('.search-box');
@@ -124,22 +157,30 @@ function attachNavigationEvents() {
             console.log('Search:', e.target.value);
         });
     }
+}
 
-    // Mobile menu toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            document.querySelector('.docs-sidebar').classList.toggle('active');
-        });
+// Enhanced loading with retry
+let retryCount = 0;
+const maxRetries = 3;
+
+function loadNavigationWithRetry() {
+    try {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadGlobalNavigation);
+        } else {
+            loadGlobalNavigation();
+        }
+    } catch (error) {
+        console.error('Navigation loading failed:', error);
+        if (retryCount < maxRetries) {
+            retryCount++;
+            setTimeout(loadNavigationWithRetry, 1000);
+        }
     }
 }
 
-// Load navigation when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadGlobalNavigation);
-} else {
-    loadGlobalNavigation();
-}
+// Start loading navigation
+loadNavigationWithRetry();
 
 // Export for module usage if needed
 if (typeof module !== 'undefined' && module.exports) {
