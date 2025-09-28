@@ -1,299 +1,147 @@
-// Global Navigation Configuration for entire SIF Framework site
-const GLOBAL_NAVIGATION = {
-    mainSite: {
-        title: 'SIF Framework',
-        subtitle: 'Ethical AI Adjudication System',
-        sections: [
-            {
-                title: 'Main',
-                links: [
-                    { name: '🏠 Home', url: '/', icon: '🏠' },
-                    { name: '🚀 Acquisition', url: '/acquisition.html', icon: '🚀' },
-                    { name: '⚡ Features', url: '#features', icon: '⚡' },
-                    { name: '🎮 Live Demo', url: '#demo', icon: '🎮' }
-                ]
-            },
-            {
-                title: 'Framework Docs',
-                links: [
-                    { name: '📚 Documentation', url: '/docs/', icon: '📚' },
-                    { name: '🏗️ Architecture', url: '/docs/architecture-overview.html', icon: '🏗️' },
-                    { name: '🔧 API Reference', url: '/docs/api-reference.html', icon: '🔧' },
-                    { name: '🚀 Quick Start', url: '/docs/quick-start.html', icon: '🚀' },
-                    { name: '🎯 Use Cases', url: '/docs/use-cases.html', icon: '🎯' }
-                ]
-            },
-            {
-                title: 'Acquisition & Implementation',
-                links: [
-                    { name: '📊 Executive Summary', url: '/acquisition.html', icon: '📊' },
-                    { name: '📋 Acquisition Guide', url: '/docs/acquisition-overview.html', icon: '📋' },
-                    { name: '✅ Compliance Guide', url: '/docs/compliance-guide.html', icon: '✅' },
-                    { name: '🏢 Enterprise Deployment', url: '/docs/enterprise-deployment.html', icon: '🏢' },
-                    { name: '📝 Deployment Checklist', url: '/docs/deployment-checklist.html', icon: '📝' },
-                    { name: '🔄 Support & Transition', url: '/docs/support-transition.html', icon: '🔄' },
-                    { name: '📄 Software License', url: '/docs/software-license.html', icon: '📄' },
-                    { name: '🛡️ Warranties', url: '/docs/warranties-disclaimers.html', icon: '🛡️' }
-                ]
-            },
-            {
-                title: 'Demo',
-                links: [
-                    { name: '🎮 Try Demo', url: '/demo/demo-frontend/index.html', icon: '🎮' },
-                    { name: '📖 Demo Guide', url: '/demo/README.md', icon: '📖' }
-                ]
-            }
-        ]
-    },
-    docsSite: {
-        title: 'SIF Framework',
-        subtitle: 'Enterprise AI Governance Documentation',
-        sections: [
-            {
-                title: 'Getting Started',
-                links: [
-                    { name: '📖 Overview', url: 'index.html', icon: '📖' },
-                    { name: '🚀 Quick Start', url: 'quick-start.html', icon: '🚀' }
-                ]
-            },
-            {
-                title: 'Integration',
-                links: [
-                    { name: '🔌 Integration Guide', url: 'integration-guide.html', icon: '🔌' },
-                    { name: '🔧 API Reference', url: 'api-reference.html', icon: '🔧' }
-                ]
-            },
-            {
-                title: 'Enterprise',
-                links: [
-                    { name: '🏢 Deployment Guide', url: 'enterprise-deployment.html', icon: '🏢' },
-                    { name: '⚖️ Compliance Guide', url: 'compliance-guide.html', icon: '⚖️' },
-                    { name: '🎯 Use Cases', url: 'use-cases.html', icon: '🎯' }
-                ]
-            },
-            {
-                title: 'Support',
-                links: [
-                    { name: '❓ FAQ', url: 'faq.html', icon: '❓' }
-                ]
-            }
-        ]
-    },
-    acquisitionSite: {
-        title: 'SIF Framework',
-        subtitle: 'Acquisition Documentation',
-        sections: [
-            {
-                title: 'Acquisition Package',
-                links: [
-                    { name: '📋 Overview', url: 'acquisition-overview.html', icon: '📋' },
-                    { name: '🏗️ Architecture', url: 'architecture-overview.html', icon: '🏗️' },
-                    { name: '✅ Deployment', url: 'deployment-checklist.html', icon: '✅' },
-                    { name: '⚖️ IP Assignment', url: 'ip-assignment.html', icon: '⚖️' },
-                    { name: '📄 License', url: 'software-license.html', icon: '📄' },
-                    { name: '🔄 Support', url: 'support-transition.html', icon: '🔄' },
-                    { name: '🛡️ Warranties', url: 'warranties-disclaimers.html', icon: '🛡️' },
-                    { name: '⚡ Process', url: 'acquisition-process.html', icon: '⚡' }
-                ]
-            }
-        ]
-    }
-};
+// Global Navigation System for SIF Framework Documentation
+// Automatically detects context (technical docs vs acquisition) and shows appropriate navigation
 
-// Determine current site context
-function getCurrentSiteContext() {
+function loadGlobalNavigation() {
+    const navContainer = document.getElementById('global-navigation');
+    if (!navContainer) return;
+
+    // Detect if we're in acquisition docs or technical docs
+    const isAcquisitionPage = window.location.pathname.includes('acquisition-') ||
+                             document.title.includes('Acquisition');
+
     const currentPath = window.location.pathname;
+    const isInDocsFolder = currentPath.includes('/docs/');
 
-    if (currentPath.includes('/docs/')) {
-        const currentPage = currentPath.split('/').pop();
-        const isAcquisitionPage = currentPage.includes('acquisition') ||
-                                 currentPage.includes('ip-assignment') ||
-                                 currentPage.includes('software-license') ||
-                                 currentPage.includes('support-transition') ||
-                                 currentPage.includes('warranties');
-
-        return isAcquisitionPage ? 'acquisitionSite' : 'docsSite';
+    // Base path for links - adjust based on current location
+    let basePath = '';
+    if (isInDocsFolder) {
+        basePath = './'; // Relative to current docs folder
+    } else {
+        basePath = 'docs/'; // Relative to root
     }
 
-    return 'mainSite';
-}
-
-// Generate navigation HTML
-function generateGlobalNavigation() {
-    const context = getCurrentSiteContext();
-    const navigation = GLOBAL_NAVIGATION[context];
-    const currentPath = window.location.pathname;
-    const currentPage = currentPath.split('/').pop();
-
-    let navHTML = `
+    const navigationHTML = `
         <nav class="docs-sidebar">
             <div class="sidebar-header">
-                <h1>${navigation.title}</h1>
-                <p>${navigation.subtitle}</p>
+                <h1>SIF Framework</h1>
+                <p>${isAcquisitionPage ? 'Acquisition Documentation' : 'Enterprise AI Governance Documentation'}</p>
             </div>
-    `;
 
-    // Add search bar only for main documentation site
-    if (context === 'docsSite') {
-        navHTML += `
+            ${!isAcquisitionPage ? `
             <div class="search-container">
                 <input type="text" class="search-box" placeholder="Search documentation...">
             </div>
-        `;
-    }
+            ` : ''}
 
-    navHTML += `<div class="sidebar-nav">`;
-
-    // Navigation sections
-    navigation.sections.forEach(section => {
-        navHTML += `
-            <div class="nav-section">
-                <h3>${section.title}</h3>
-                <ul class="nav-links">
-        `;
-
-        section.links.forEach(link => {
-            let isActive = false;
-
-            if (link.url.startsWith('#')) {
-                // Anchor links for main site
-                isActive = currentPath === '/' && window.location.hash === link.url;
-            } else if (link.url === '/') {
-                // Home page
-                isActive = currentPath === '/' || currentPath === '/index.html';
-            } else {
-                // Regular pages
-                isActive = currentPath.endsWith(link.url) || currentPage === link.url;
-            }
-
-            navHTML += `
-                <li>
-                    <a href="${link.url}" class="${isActive ? 'active' : ''}">
-                        <span class="icon">${link.icon}</span> ${link.name}
-                    </a>
-                </li>
-            `;
-        });
-
-        navHTML += `
-                </ul>
-            </div>
-        `;
-    });
-
-    // Cross-site navigation
-    navHTML += `
-        <div class="nav-section">
-            <h3>Site Navigation</h3>
-            <ul class="nav-links">
-    `;
-
-    if (context === 'mainSite') {
-        navHTML += `
-            <li>
-                <a href="/docs/">
-                    <span class="icon">📚</span> View Documentation
-                </a>
-            </li>
-            <li>
-                <a href="/docs/acquisition-overview.html">
-                    <span class="icon">🚀</span> Acquisition Details
-                </a>
-            </li>
-        `;
-    } else if (context === 'docsSite') {
-        navHTML += `
-            <li>
-                <a href="/">
-                    <span class="icon">🏠</span> Back to Main Site
-                </a>
-            </li>
-            <li>
-                <a href="/docs/acquisition-overview.html">
-                    <span class="icon">🚀</span> Acquisition Documentation
-                </a>
-            </li>
-        `;
-    } else if (context === 'acquisitionSite') {
-        navHTML += `
-            <li>
-                <a href="/">
-                    <span class="icon">🏠</span> Back to Main Site
-                </a>
-            </li>
-            <li>
-                <a href="/docs/">
-                    <span class="icon">📚</span> Main Documentation
-                </a>
-            </li>
-        `;
-    }
-
-    navHTML += `
-            </ul>
-        </div>
-    `;
-
-    navHTML += `
+            <div class="sidebar-nav">
+                ${isAcquisitionPage ? generateAcquisitionNav(basePath) : generateTechnicalDocsNav(basePath)}
             </div>
         </nav>
     `;
 
-    return navHTML;
+    navContainer.innerHTML = navigationHTML;
+    attachNavigationEvents();
 }
 
-// Auto-initialize global navigation
-document.addEventListener('DOMContentLoaded', function() {
-    const navContainer = document.getElementById('global-navigation');
-    if (navContainer) {
-        navContainer.innerHTML = generateGlobalNavigation();
-        initializeGlobalNavigationInteractivity();
-    }
-});
+function generateTechnicalDocsNav(basePath) {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-// Initialize interactivity for global navigation
-function initializeGlobalNavigationInteractivity() {
-    // Smooth scrolling for main site anchor links
-    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-        document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+    return `
+        <div class="nav-section">
+            <h3>Getting Started</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}index.html" class="${currentPage === 'index.html' ? 'active' : ''}"><span class="icon">📖</span> Overview</a></li>
+                <li><a href="${basePath}quick-start.html" class="${currentPage === 'quick-start.html' ? 'active' : ''}"><span class="icon">🚀</span> Quick Start</a></li>
+            </ul>
+        </div>
 
-                    // Update active navigation link
-                    document.querySelectorAll('.nav-links a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                }
-            });
+        <div class="nav-section">
+            <h3>Integration</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}integration-guide.html" class="${currentPage === 'integration-guide.html' ? 'active' : ''}"><span class="icon">🔌</span> Integration Guide</a></li>
+                <li><a href="${basePath}api-reference.html" class="${currentPage === 'api-reference.html' ? 'active' : ''}"><span class="icon">🔧</span> API Reference</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3>Enterprise</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}enterprise-deployment.html" class="${currentPage === 'enterprise-deployment.html' ? 'active' : ''}"><span class="icon">🏢</span> Deployment Guide</a></li>
+                <li><a href="${basePath}compliance-guide.html" class="${currentPage === 'compliance-guide.html' ? 'active' : ''}"><span class="icon">⚖️</span> Compliance Guide</a></li>
+                <li><a href="${basePath}use-cases.html" class="${currentPage === 'use-cases.html' ? 'active' : ''}"><span class="icon">🎯</span> Use Cases</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3>Support</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}faq.html" class="${currentPage === 'faq.html' ? 'active' : ''}"><span class="icon">❓</span> FAQ</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3>Acquisition</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}acquisition-overview.html"><span class="icon">💼</span> Acquisition Package</a></li>
+            </ul>
+        </div>
+    `;
+}
+
+function generateAcquisitionNav(basePath) {
+    const currentPage = window.location.pathname.split('/').pop() || 'acquisition-overview.html';
+
+    return `
+        <div class="nav-section">
+            <h3>Acquisition Package</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}acquisition-overview.html" class="${currentPage === 'acquisition-overview.html' ? 'active' : ''}"><span class="icon">📋</span> Overview</a></li>
+                <li><a href="${basePath}architecture-overview.html" class="${currentPage === 'architecture-overview.html' ? 'active' : ''}"><span class="icon">🏗️</span> Architecture</a></li>
+                <li><a href="${basePath}deployment-checklist.html" class="${currentPage === 'deployment-checklist.html' ? 'active' : ''}"><span class="icon">✅</span> Deployment</a></li>
+                <li><a href="${basePath}ip-assignment.html" class="${currentPage === 'ip-assignment.html' ? 'active' : ''}"><span class="icon">⚖️</span> IP Assignment</a></li>
+                <li><a href="${basePath}software-license.html" class="${currentPage === 'software-license.html' ? 'active' : ''}"><span class="icon">📄</span> License</a></li>
+                <li><a href="${basePath}support-transition.html" class="${currentPage === 'support-transition.html' ? 'active' : ''}"><span class="icon">🔄</span> Support</a></li>
+                <li><a href="${basePath}warranties-disclaimers.html" class="${currentPage === 'warranties-disclaimers.html' ? 'active' : ''}"><span class="icon">🛡️</span> Warranties</a></li>
+                <li><a href="${basePath}acquisition-process.html" class="${currentPage === 'acquisition-process.html' ? 'active' : ''}"><span class="icon">⚡</span> Process</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3>Technical Documentation</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}index.html"><span class="icon">📚</span> Back to Docs</a></li>
+            </ul>
+        </div>
+    `;
+}
+
+function attachNavigationEvents() {
+    // Search functionality
+    const searchBox = document.querySelector('.search-box');
+    if (searchBox) {
+        searchBox.addEventListener('input', function(e) {
+            // Implement search functionality here
+            console.log('Search:', e.target.value);
         });
+    }
 
-        // Update active nav link on scroll for main site
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.content-section');
-            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
-            let currentSection = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = '#' + section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === currentSection) {
-                    link.classList.add('active');
-                }
-            });
+    // Mobile menu toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            document.querySelector('.docs-sidebar').classList.toggle('active');
         });
     }
+}
+
+// Load navigation when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadGlobalNavigation);
+} else {
+    loadGlobalNavigation();
+}
+
+// Export for module usage if needed
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { loadGlobalNavigation };
 }
