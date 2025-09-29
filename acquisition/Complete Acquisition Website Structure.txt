@@ -1,0 +1,11 @@
+acquisition-docs/
+├── acquisition-overview.html      # Main landing page
+├── architecture-overview.html     # Technical architecture
+├── deployment-checklist.html      # 15-minute deployment guide
+├── ip-assignment.html            # IP transfer details
+├── software-license.html          # License terms
+├── support-transition.html        # Zero support commitment
+├── warranties-disclaimers.html    # Warranties and disclaimers
+├── acquisition-process.html       # 1-2 week timeline
+├── style.css                     # Complete styling
+└── script.js                     # Interactive functionality
