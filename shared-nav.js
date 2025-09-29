@@ -163,8 +163,7 @@ function generateAcquisitionNav(basePath) {
                 <div class="nav-section">
                     <h3>Acquisition Package</h3>
                     <ul class="nav-links">
-                        <li><a href="${basePath}acquisition/index.html" class="${currentPage === 'index.html' ? 'active' : ''}"><span class="icon">📋</span> Overview</a></li>
-                        <li><a href="${basePath}acquisition/acquisition-overview.html" class="${currentPage === 'acquisition-overview.html' ? 'active' : ''}"><span class="icon">🔍</span> Detailed Overview</a></li>
+                        <li><a href="${basePath}acquisition/index.html" class="${currentPage === 'acquisition-index' ? 'active' : ''}"><span class="icon">📋</span> Overview</a></li>
                         <li><a href="${basePath}acquisition/architecture-overview.html" class="${currentPage === 'architecture-overview.html' ? 'active' : ''}"><span class="icon">🏗️</span> Architecture</a></li>
                         <li><a href="${basePath}acquisition/deployment-checklist.html" class="${currentPage === 'deployment-checklist.html' ? 'active' : ''}"><span class="icon">✅</span> Deployment</a></li>
                         <li><a href="${basePath}acquisition/ip-assignment.html" class="${currentPage === 'ip-assignment.html' ? 'active' : ''}"><span class="icon">⚖️</span> IP Assignment</a></li>
@@ -201,22 +200,63 @@ function generateFallbackNav() {
 
 function getCurrentPage() {
     const path = window.location.pathname;
-    return path.split('/').pop() || 'index.html';
+    let page = path.split('/').pop() || 'index.html';
+
+    // Handle acquisition index specifically
+    if (path.includes('/acquisition/') && page === 'index.html') {
+        return 'acquisition-index';
+    }
+
+    return page;
 }
 
 function attachNavigationEvents() {
     const searchBox = document.querySelector('.search-box');
     if (searchBox) {
         searchBox.addEventListener('input', function(e) {
-            console.log('Search:', e.target.value);
+            const query = e.target.value.toLowerCase();
+            const navSections = document.querySelectorAll('.nav-section');
+
+            navSections.forEach(section => {
+                const links = section.querySelectorAll('.nav-links a');
+                let hasVisibleLinks = false;
+
+                links.forEach(link => {
+                    const text = link.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        link.parentElement.style.display = '';
+                        hasVisibleLinks = true;
+                    } else {
+                        link.parentElement.style.display = 'none';
+                    }
+                });
+
+                // Hide entire section if no visible links
+                section.style.display = hasVisibleLinks ? '' : 'none';
+            });
         });
     }
 
-    // Mobile menu toggle (if you add mobile support later)
+    // Mobile menu toggle
     const mobileToggle = document.querySelector('.mobile-toggle');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
     if (mobileToggle) {
         mobileToggle.addEventListener('click', function() {
-            document.querySelector('.docs-sidebar').classList.toggle('mobile-open');
+            const sidebar = document.querySelector('.docs-sidebar');
+            sidebar.classList.toggle('mobile-open');
+
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.toggle('active');
+            }
+        });
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            const sidebar = document.querySelector('.docs-sidebar');
+            sidebar.classList.remove('mobile-open');
+            sidebarOverlay.classList.remove('active');
         });
     }
 }
