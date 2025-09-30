@@ -1,4 +1,4 @@
-// Global Navigation System for SIF Framework Documentation
+// Unified Navigation System for SIF Framework
 function loadGlobalNavigation() {
     const navContainer = document.getElementById('global-navigation');
     if (!navContainer) {
@@ -8,34 +8,16 @@ function loadGlobalNavigation() {
 
     try {
         const currentPath = window.location.pathname;
+        const currentPage = getCurrentPage();
 
-        // Detect context based on folder
-        const isHomePage = currentPath.endsWith('/SIF-Framework/') ||
-                          currentPath.endsWith('/index.html') ||
-                          currentPath === '/';
-
-        const isAcquisitionPage = currentPath.includes('/acquisition/');
-        const isDocsPage = currentPath.includes('/docs/') ||
-                          (isHomePage && !isAcquisitionPage);
-
-        // Base path calculation is now much simpler
+        // Unified base path detection
         let basePath = '/SIF-Framework/';
         if (window.location.hostname !== 'sif-framework-uk.github.io') {
-            basePath = './'; // Local development
+            basePath = './';
         }
 
-        console.log('Navigation context:', {
-            isHomePage,
-            isAcquisitionPage,
-            isDocsPage,
-            currentPath,
-            basePath
-        });
-
-        const navigationHTML = isHomePage ? generateHomeNav(basePath) :
-                              isAcquisitionPage ? generateAcquisitionNav(basePath) :
-                              generateTechnicalDocsNav(basePath);
-
+        // Generate unified navigation
+        const navigationHTML = generateUnifiedNav(basePath, currentPath, currentPage);
         navContainer.innerHTML = navigationHTML;
         attachNavigationEvents();
 
@@ -45,7 +27,16 @@ function loadGlobalNavigation() {
     }
 }
 
-function generateHomeNav(basePath) {
+function generateUnifiedNav(basePath, currentPath, currentPage) {
+    const isHome = currentPath.endsWith('/SIF-Framework/') || currentPath.endsWith('/index.html') || currentPath === '/';
+    const isAcquisition = currentPath.includes('/acquisition/');
+    const isDocs = currentPath.includes('/docs/');
+
+    // Determine active section for sidebar
+    let activeSection = 'home';
+    if (isAcquisition) activeSection = 'acquisition';
+    if (isDocs) activeSection = 'docs';
+
     return `
         <nav class="docs-sidebar">
             <div class="sidebar-header">
@@ -54,19 +45,27 @@ function generateHomeNav(basePath) {
             </div>
 
             <div class="sidebar-nav">
+                <!-- Main Navigation - Always Visible -->
                 <div class="nav-section">
                     <h3>Main Navigation</h3>
                     <ul class="nav-links">
-                        <li><a href="${basePath}index.html" class="active"><span class="icon">🏠</span> Home</a></li>
-                        <li><a href="${basePath}docs/index.html"><span class="icon">📖</span> Documentation</a></li>
-                        <li><a href="${basePath}acquisition/index.html"><span class="icon">💼</span> Acquisition</a></li>
+                        <li><a href="${basePath}index.html" class="${activeSection === 'home' ? 'active' : ''}"><span class="icon">🏠</span> Home</a></li>
+                        <li><a href="${basePath}docs/index.html" class="${activeSection === 'docs' ? 'active' : ''}"><span class="icon">📚</span> Documentation</a></li>
+                        <li><a href="${basePath}acquisition/index.html" class="${activeSection === 'acquisition' ? 'active' : ''}"><span class="icon">💼</span> Acquisition</a></li>
                     </ul>
                 </div>
 
+                <!-- Contextual Navigation -->
+                ${isDocs ? generateDocsNav(basePath, currentPage) : ''}
+                ${isAcquisition ? generateAcquisitionNav(basePath, currentPage) : ''}
+                ${isHome ? generateHomeQuickLinks(basePath) : ''}
+
+                <!-- Cross-Section Links -->
                 <div class="nav-section">
-                    <h3>Quick Links</h3>
+                    <h3>Quick Access</h3>
                     <ul class="nav-links">
-                        <li><a href="${basePath}docs/quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                        ${!isDocs ? `<li><a href="${basePath}docs/quick-start.html"><span class="icon">🚀</span> Quick Start Guide</a></li>` : ''}
+                        ${!isAcquisition ? `<li><a href="${basePath}acquisition/index.html"><span class="icon">📋</span> Acquisition Overview</a></li>` : ''}
                         <li><a href="${basePath}docs/api-reference.html"><span class="icon">🔧</span> API Reference</a></li>
                         <li><a href="${basePath}docs/faq.html"><span class="icon">❓</span> FAQ</a></li>
                     </ul>
@@ -76,133 +75,56 @@ function generateHomeNav(basePath) {
     `;
 }
 
-function generateTechnicalDocsNav(basePath) {
-    const currentPage = getCurrentPage();
-
+function generateDocsNav(basePath, currentPage) {
     return `
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Technical Documentation</p>
-            </div>
-
-            <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search documentation...">
-            </div>
-
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <h3>Main</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}index.html"><span class="icon">🏠</span> Home</a></li>
-                        <li><a href="${basePath}docs/index.html" class="${currentPage === 'index.html' ? 'active' : ''}"><span class="icon">📖</span> Overview</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Getting Started</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}docs/quick-start.html" class="${currentPage === 'quick-start.html' ? 'active' : ''}"><span class="icon">🚀</span> Quick Start</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Integration</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}docs/integration-guide.html" class="${currentPage === 'integration-guide.html' ? 'active' : ''}"><span class="icon">🔌</span> Integration Guide</a></li>
-                        <li><a href="${basePath}docs/api-reference.html" class="${currentPage === 'api-reference.html' ? 'active' : ''}"><span class="icon">🔧</span> API Reference</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Enterprise</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}docs/enterprise-deployment.html" class="${currentPage === 'enterprise-deployment.html' ? 'active' : ''}"><span class="icon">🏢</span> Deployment Guide</a></li>
-                        <li><a href="${basePath}docs/compliance-guide.html" class="${currentPage === 'compliance-guide.html' ? 'active' : ''}"><span class="icon">⚖️</span> Compliance Guide</a></li>
-                        <li><a href="${basePath}docs/use-cases.html" class="${currentPage === 'use-cases.html' ? 'active' : ''}"><span class="icon">🎯</span> Use Cases</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Support</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}docs/faq.html" class="${currentPage === 'faq.html' ? 'active' : ''}"><span class="icon">❓</span> FAQ</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Acquisition</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}acquisition/index.html"><span class="icon">💼</span> Acquisition Package</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div class="nav-section">
+            <h3>Documentation</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}docs/quick-start.html" class="${currentPage === 'quick-start.html' ? 'active' : ''}"><span class="icon">🚀</span> Quick Start</a></li>
+                <li><a href="${basePath}docs/integration-guide.html" class="${currentPage === 'integration-guide.html' ? 'active' : ''}"><span class="icon">🔌</span> Integration</a></li>
+                <li><a href="${basePath}docs/api-reference.html" class="${currentPage === 'api-reference.html' ? 'active' : ''}"><span class="icon">🔧</span> API Reference</a></li>
+                <li><a href="${basePath}docs/enterprise-deployment.html" class="${currentPage === 'enterprise-deployment.html' ? 'active' : ''}"><span class="icon">🏢</span> Deployment</a></li>
+                <li><a href="${basePath}docs/compliance-guide.html" class="${currentPage === 'compliance-guide.html' ? 'active' : ''}"><span class="icon">⚖️</span> Compliance</a></li>
+            </ul>
+        </div>
     `;
 }
 
-function generateAcquisitionNav(basePath) {
-    const currentPage = getCurrentPage();
-
+function generateAcquisitionNav(basePath, currentPage) {
     return `
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Acquisition Documentation</p>
-            </div>
-
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <h3>Main</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}index.html"><span class="icon">🏠</span> Home</a></li>
-                        <li><a href="${basePath}docs/index.html"><span class="icon">📚</span> Technical Docs</a></li>
-                    </ul>
-                </div>
-
-                <div class="nav-section">
-                    <h3>Acquisition Package</h3>
-                    <ul class="nav-links">
-                        <li><a href="${basePath}acquisition/index.html" class="${currentPage === 'acquisition-index' ? 'active' : ''}"><span class="icon">📋</span> Overview</a></li>
-                        <li><a href="${basePath}acquisition/architecture-overview.html" class="${currentPage === 'architecture-overview.html' ? 'active' : ''}"><span class="icon">🏗️</span> Architecture</a></li>
-                        <li><a href="${basePath}acquisition/deployment-checklist.html" class="${currentPage === 'deployment-checklist.html' ? 'active' : ''}"><span class="icon">✅</span> Deployment</a></li>
-                        <li><a href="${basePath}acquisition/ip-assignment.html" class="${currentPage === 'ip-assignment.html' ? 'active' : ''}"><span class="icon">⚖️</span> IP Assignment</a></li>
-                        <li><a href="${basePath}acquisition/software-license.html" class="${currentPage === 'software-license.html' ? 'active' : ''}"><span class="icon">📄</span> License</a></li>
-                        <li><a href="${basePath}acquisition/support-transition.html" class="${currentPage === 'support-transition.html' ? 'active' : ''}"><span class="icon">🔄</span> Support</a></li>
-                        <li><a href="${basePath}acquisition/warranties-disclaimers.html" class="${currentPage === 'warranties-disclaimers.html' ? 'active' : ''}"><span class="icon">🛡️</span> Warranties</a></li>
-                        <li><a href="${basePath}acquisition/acquisition-process.html" class="${currentPage === 'acquisition-process.html' ? 'active' : ''}"><span class="icon">⚡</span> Process</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div class="nav-section">
+            <h3>Acquisition Package</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}acquisition/index.html" class="${currentPage === 'acquisition-index' ? 'active' : ''}"><span class="icon">📋</span> Overview</a></li>
+                <li><a href="${basePath}acquisition/architecture-overview.html" class="${currentPage === 'architecture-overview.html' ? 'active' : ''}"><span class="icon">🏗️</span> Architecture</a></li>
+                <li><a href="${basePath}acquisition/deployment-checklist.html" class="${currentPage === 'deployment-checklist.html' ? 'active' : ''}"><span class="icon">✅</span> Deployment</a></li>
+                <li><a href="${basePath}acquisition/ip-assignment.html" class="${currentPage === 'ip-assignment.html' ? 'active' : ''}"><span class="icon">⚖️</span> IP Assignment</a></li>
+                <li><a href="${basePath}acquisition/software-license.html" class="${currentPage === 'software-license.html' ? 'active' : ''}"><span class="icon">📄</span> License</a></li>
+            </ul>
+        </div>
     `;
 }
 
-function generateFallbackNav() {
+function generateHomeQuickLinks(basePath) {
     return `
-        <nav class="docs-sidebar">
-            <div class="sidebar-header">
-                <h1>SIF Framework</h1>
-                <p>Navigation Error</p>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <ul class="nav-links">
-                        <li><a href="/SIF-Framework/index.html"><span class="icon">🏠</span> Home</a></li>
-                        <li><a href="/SIF-Framework/docs/index.html"><span class="icon">📚</span> Documentation</a></li>
-                        <li><a href="/SIF-Framework/acquisition/index.html"><span class="icon">💼</span> Acquisition</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div class="nav-section">
+            <h3>Get Started</h3>
+            <ul class="nav-links">
+                <li><a href="${basePath}docs/quick-start.html"><span class="icon">🚀</span> Quick Start</a></li>
+                <li><a href="${basePath}docs/index.html"><span class="icon">📖</span> Full Documentation</a></li>
+                <li><a href="${basePath}acquisition/index.html"><span class="icon">💼</span> Acquisition Info</a></li>
+            </ul>
+        </div>
     `;
 }
+
+// Keep the existing helper functions (getCurrentPage, attachNavigationEvents, etc.)
+// They work well with the unified approach
 
 function getCurrentPage() {
     const path = window.location.pathname;
     let page = path.split('/').pop() || 'index.html';
 
-    // Handle acquisition index specifically
     if (path.includes('/acquisition/') && page === 'index.html') {
         return 'acquisition-index';
     }
@@ -211,6 +133,7 @@ function getCurrentPage() {
 }
 
 function attachNavigationEvents() {
+    // Search functionality
     const searchBox = document.querySelector('.search-box');
     if (searchBox) {
         searchBox.addEventListener('input', function(e) {
@@ -231,13 +154,12 @@ function attachNavigationEvents() {
                     }
                 });
 
-                // Hide entire section if no visible links
                 section.style.display = hasVisibleLinks ? '' : 'none';
             });
         });
     }
 
-    // Mobile menu toggle
+    // Mobile menu
     const mobileToggle = document.querySelector('.mobile-toggle');
     const sidebarOverlay = document.querySelector('.sidebar-overlay');
 
@@ -261,7 +183,7 @@ function attachNavigationEvents() {
     }
 }
 
-// Enhanced loading with error handling and retry
+// Keep the existing loading logic
 let navigationLoadAttempts = 0;
 const maxNavigationLoadAttempts = 3;
 
@@ -281,10 +203,8 @@ function attemptLoadNavigation() {
     }
 }
 
-// Start loading navigation
 attemptLoadNavigation();
 
-// Export for module usage if needed
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { loadGlobalNavigation };
 }
